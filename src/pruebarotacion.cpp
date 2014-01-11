@@ -23,7 +23,7 @@ Imagen Rota(const Imagen & I_input,double angulo){
     int corners[4][2]={ {0,0},
                         {--I_input.num_cols(),0},
                         {--I_input.num_cols(),--I_input.numfilas()}
-                        {0,--I_input.numfilas()} }
+                        {0,--I_input.numfilas()} };
     
     new_row_min = new_col_min = new_row_max = new_col_max = 0;
     newimgrows = newimgcols = 0;
@@ -56,9 +56,9 @@ Imagen Rota(const Imagen & I_input,double angulo){
             
             if((old_row>=0)&&(old_row<I_input.num_filas())&&
                 (old_col>=0)&&(old_col<I_input.num_cols()))
-                I_output(rows,cols)=I_input(old_row,old_col);
+                I_output [rows][cols]=I_input[old_row][old_col];
             else
-                I_output(rows,cols).r=I_output(rows,cols).g=I_output(rows,cols).b=255;
+                I_output[rows][cols].R=I_output[rows,cols].G=I_output[rows][cols].B=255;
         }
     }
     return I_output;
