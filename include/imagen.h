@@ -7,6 +7,10 @@
 class Imagen {
 	Pixel ** m;
 	int colnum, rownum;
+
+	bool leerPPM(char* nombre_archivo);
+	void reserva(int, int);
+
 public:
 	struct Posicion {
 		unsigned int i, j;
@@ -15,9 +19,7 @@ public:
 		m = 0;
 	}
 	Imagen(int nr, int nc) {
-		m = new Pixel*[nr];
-		for (int i = 0; i < nr; ++i)
-			m[i] = new Pixel[nc];
+		reserva(nr, nc);
 	};
 	~Imagen() {
 		for (int i = 0; i < rownum; ++i)
@@ -28,9 +30,6 @@ public:
 	Pixel* operator[](unsigned int i) { // l-value
 		return m[i];
 	}
-/*	const Pixel* operator[](unsigned int i) const { // r-value
-		return m + i;
-	}*/
 
 	Imagen rotar(double angulo);
 	void superponer(const Imagen& nueva, Posicion lugar);

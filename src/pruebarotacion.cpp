@@ -70,10 +70,60 @@ Imagen Imagen::rotar(double angulo){
 
 void Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {}
 void Imagen::leer(char nombre_archivo[]) {
-    LeerImagenPPM(nombre_archivo, rownum, colnum, reinterpret_cast<unsigned char*>(m));
-}
-void Imagen::escribir(char nombre_archivo[]) {}
 
+}
+
+void Imagen::escribir(char nombre_archivo[]) {
+
+}
+
+
+void Imagen::leerPPM (const char nombre[], const char nmask[]="") {
+    //bool exito= false;
+    filas=0;
+    columnas=0;
+    ifstream f(nombre);
+    ifstream mask(nmask);
+
+    if (LeerTipo(f)==IMG_PPM)
+        if (LeerCabecera (f, rownum, colnum)) {
+            reserva(rownum, colnum);
+
+            for (int i = 0; i < rownum; i++) {
+                for (int j = 0; j < colnum; j++) {
+                    f.read(reinterpret_cast<char *>(m[i][j]),3);
+                    mask.read(reinterpret_cast<char *>(m[i][j].alpha),1);
+                }
+            }
+        }
+}
+bool Imagen::leerPGM (const char nombre[]) {
+    bool exito= false;
+    filas=0;
+    columnas=0;
+    ifstream f(nombre);
+
+    if (LeerTipo(f)==IMG_PPM)
+        if (LeerCabecera (f, rownum, colnum)) {
+            reserva(rownum, colnum);
+
+            for (int i = 0; i < rownum; i++) {
+                for (int j = 0; j < colnum; j++) {
+                    f.read(reinterpret_cast<char *>(m[i][j]),1);
+                    m[i][j].b = m[i][j].g = m[i][j].r;
+                    m[i][j].alpha = 0xff;
+                }
+            }
+        }
+
+    return exito;
+}
+
+void Imagen::reserva(int nr, int nc) {
+    m = new Pixel*[nr];
+    for (int i = 0; i < nr; ++i)
+        m[i] = new Pixel[nc];
+}
 
 
 int main(int argc, char * argv[]){
