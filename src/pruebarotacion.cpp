@@ -1,4 +1,5 @@
 #include "imagen.h"
+#include "imagenES.h"
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -11,7 +12,8 @@ using namespace std;
  * @return Una nueva imagen que es la versión rotada de Io.
  * */
 
-Imagen Rota(const Imagen & I_input,double angulo){
+Imagen Imagen::rotar(double angulo){
+    Imagen& I_input = *this;
     double rads=angulo;
     double coseno = cos(angulo);
     double seno = sin(angulo);
@@ -21,9 +23,9 @@ Imagen Rota(const Imagen & I_input,double angulo){
     double x,y;
     // Coordenadas de bordes de imagen a girar
     int corners[4][2]={ {0,0},
-                        {--I_input.num_cols(),0},
-                        {--I_input.num_cols(),--I_input.numfilas()}
-                        {0,--I_input.numfilas()} };
+                        {--colnum,0},
+                        {--colnum,--rownum},
+                        {0,--rownum} };
     
     new_row_min = new_col_min = new_row_max = new_col_max = 0;
     newimgrows = newimgcols = 0;
@@ -54,15 +56,23 @@ Imagen Rota(const Imagen & I_input,double angulo){
             int old_row=ceil((cols+new_col_min)*seno+
                              (rows+new_row_min)*coseno);
             
-            if((old_row>=0)&&(old_row<I_input.num_filas())&&
-                (old_col>=0)&&(old_col<I_input.num_cols()))
-                I_output [rows][cols]=I_input[old_row][old_col];
+            if((old_row>=0)&&(old_row<I_input.rownum)&&
+                (old_col>=0)&&(old_col<I_input.colnum))
+                I_output [rows][cols] = (*this)[old_row][old_col];
             else
-                I_output[rows][cols].R=I_output[rows,cols].G=I_output[rows][cols].B=255;
+                I_output[rows][cols] = 0x00ffffff;
         }
     }
+
+    //*this = I_output;
     return I_output;
 }
+
+void Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {}
+void Imagen::leer(char nombre_archivo[]) {
+    LeerImagenPPM(nombre_archivo, rownum, colnum, reinterpret_cast<unsigned char*>(m));
+}
+void Imagen::escribir(char nombre_archivo[]) {}
 
 
 
@@ -75,9 +85,9 @@ int main(int argc, char * argv[]){
         return 0;
     }
     Imagen I;
-    I.LeerImagen(argv[1]);
+    I.leer(argv[1]);
     double angulo=atof(argv[2]);
     angulo = angulo*(M_PI)/180; //Pasamos el angulo radianes
-    Imagen Iout=Rota(I,angulo);
-    Iout.EscribirImagen(argv[3]);  
+    Imagen nueva= I.rotar(angulo);
+    nueva.escribir(argv[3]);  
 }

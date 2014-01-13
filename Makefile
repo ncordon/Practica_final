@@ -5,8 +5,13 @@ BIN = bin
 CXX = g++
 CPPFLAGS = -Wall -g  -I$(INC) -c
 
-	
-		
+all: $(BIN)/rota
+
+$(BIN)/rota: $(OBJ)/rota.o
+	g++ -o $(BIN)/rota $^
+
+$(OBJ)/rota.o: $(SRC)/pruebarotacion.cpp
+	g++ -o $(OBJ)/rota.o -c $^ -I$(INC)
 
 
 # ************ Generación de documentación ******************
