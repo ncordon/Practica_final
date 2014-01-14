@@ -12,8 +12,7 @@
 using namespace std;
 
 
-TipoImagen LeerTipo(ifstream& f)
-{
+TipoImagen LeerTipo(ifstream& f) {
 	char c1,c2;
 	TipoImagen res= IMG_DESCONOCIDO;
 
@@ -26,17 +25,17 @@ TipoImagen LeerTipo(ifstream& f)
 				case '6': res= IMG_PPM; break;
 				default: res= IMG_DESCONOCIDO;
 			}
-		}
-		return res;
 	}
+	
+	return res;
+}
 
 // _____________________________________________________________________________
 
-	TipoImagen LeerTipoImagen(const char nombre[])
-	{
-		ifstream f(nombre);
-		return LeerTipo(f);
-	}
+TipoImagen LeerTipoImagen(const char nombre[]) {
+	ifstream f(nombre);
+	return LeerTipo(f);
+}
 
 
 // _____________________________________________________________________________
@@ -92,7 +91,7 @@ TipoImagen LeerTipoImagen(const char nombre[], int& filas, int& columnas)
 
 // _____________________________________________________________________________
 
-bool LeerImagenPPM (const char nombre[], int& filas, int& columnas, unsigned char buffer[]) {
+bool LeerImagenPPM (const char nombre[], int& filas, int& columnas) {
 	bool exito= false;
 	filas=0;
 	columnas=0;
