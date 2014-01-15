@@ -5,8 +5,10 @@ LIB=./lib
 OBJ=./obj
 SRC=./src
 
-all: $(OBJ)/imagen.o $(OBJ)/pruebaimagen.o
-	g++ -o $(BIN)/Practica_final $^
+all: rota
+
+rota: $(OBJ)/imagen.o $(OBJ)/pruebaimagen.o
+	g++ -o $(BIN)/rota $^
 
 $(OBJ)/imagen.o: $(SRC)/imagen.cpp $(INCLUDE)/imagen.h
 	g++ -o $(OBJ)/imagen.o -c $< -I$(INCLUDE)
@@ -16,5 +18,8 @@ $(OBJ)/pruebaimagen.o: $(SRC)/pruebaimagen.cpp
 
 clean:
 	rm $(OBJ)/*.o
+cleanall: clean
+	rm $(BIN)/*
+	rm -r $(DOC)/html
 doc:
 	doxygen $(DOC)/doxys/Doxyfile

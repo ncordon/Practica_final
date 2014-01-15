@@ -87,19 +87,30 @@ public:
      * @param nr número de filas
      * @param nc número de columnas
      */
-    Imagen(int nr, int nc) {
-        rownum = nr; colnum = nc;
+    Imagen(int nr, int nc) 
+    	:rownum(nr), colnum(nc) {
         reserva(nr, nc);
     }
+
+    /**
+     * @brief Constructor con parámetros
+     * @param nr número de filas
+     * @param nc número de columnas
+     */
+    Imagen(const Imagen& a_copiar);
+
+    /**
+     * @brief Sobrecarga del operador de igualdad
+     * @param nueva Objeto de Imagen a copiar en el actual
+     * @return Referencia al objeto actual
+     */
+    Imagen& operator=(const Imagen& nueva);
+
     /**
      * @brief Destructor
      */
-    ~Imagen() {
-        for (int i = 0; i < rownum; ++i)
-            delete[] m[i];
-        
-        delete[] m;
-    }
+    ~Imagen();
+
     /**
      * @brief Sobrecarga del operador [] para consulta y modificación
      * @note No comprueba rango

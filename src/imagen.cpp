@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+/****************** Métodos privados ********************/
 void Imagen::reserva(int nr, int nc) {
 	m = new Pixel*[nr];
 	for (int i = 0; i < nr; ++i)
@@ -15,60 +15,60 @@ void Imagen::reserva(int nr, int nc) {
 }
 
 bool Imagen::leerCabecera (ifstream& input, int& filas, int& columnas){
-    // Mayor valor de gris
-    int max_gris;
-    // Mayor width y length en píxeles de una imagen
-    const int max_valor = 5000;
-    filas = columnas = 0;
-    
-    while (saltarSeparadores(input) == '#')
-        /// En los ficheros de la práctica pone que la máxima longitud de comentario
-        /// es 70, había un 1000 ????
-        input.ignore(1000,'\n');
-    
-    input >> columnas >> filas >> max_gris;
-    
-    /* DEPURACIÓN
-    cout << "Columnas "<<columnas << endl;
-    cout << "Filas " <<filas << endl;
-    cout << max_gris << endl;
-    */
-    
-    if (input && filas>0 && filas <max_valor && columnas >0 && columnas<max_valor){
-        input.get(); // Saltamos separador
-        return true;
-    }
-    else 
-        return false;
+	// Mayor valor de gris
+	int max_gris;
+	// Mayor width y length en píxeles de una imagen
+	const int max_valor = 5000;
+	filas = columnas = 0;
+	
+	while (saltarSeparadores(input) == '#')
+		/// En los ficheros de la práctica pone que la máxima longitud de comentario
+		/// es 70, había un 1000 ????
+		input.ignore(1000,'\n');
+	
+	input >> columnas >> filas >> max_gris;
+	
+	/* DEPURACIÓN
+	cout << "Columnas "<<columnas << endl;
+	cout << "Filas " <<filas << endl;
+	cout << max_gris << endl;
+	*/
+	
+	if (input && filas>0 && filas <max_valor && columnas >0 && columnas<max_valor){
+		input.get(); // Saltamos separador
+		return true;
+	}
+	else 
+		return false;
 }
 
 char Imagen::saltarSeparadores (ifstream& input){
-    char c = input.peek();
-    
-    while (isspace(c)){
-        input.get();
-        c = input.peek();
-    }
-    
-    return c;
+	char c = input.peek();
+	
+	while (isspace(c)){
+		input.get();
+		c = input.peek();
+	}
+	
+	return c;
 }
 
 Imagen::TipoImagen Imagen::leerTipo(ifstream& input){
-    char c1,c2;
-    TipoImagen leida;
+	char c1,c2;
+	TipoImagen leida;
 
-    if (input) {
-        c1=input.get();
-        c2=input.get();
-        if (input && c1=='P'){
-            switch (c2) {
-                case '5': leida = PGM;break;
-                case '6': leida = PPM; break;
-                default : leida = UNKNOWN;
-            }
-        }
-    }
-    return leida;
+	if (input) {
+		c1=input.get();
+		c2=input.get();
+		if (input && c1=='P'){
+			switch (c2) {
+				case '5': leida = PGM;break;
+				case '6': leida = PPM; break;
+				default : leida = UNKNOWN;
+			}
+		}
+	}
+	return leida;
 }
 /*
 void Imagen::leer(char nombre_archivo[], char nombre_mascara[] = "") {
@@ -129,18 +129,6 @@ void Imagen::leerPGM (ifstream& f, const char nmask[]="") {
 	}
 }*/
 
-void Imagen::leer(const char* nombre_archivo,const char* mascara) {
-	// Leemos PPM o PGM. Podríamos reusar el lector con cualquier otro tipo
-	leerNetpbm(nombre_archivo, mascara);
-}
-
-void Imagen::escribir(const char* nombre_archivo,const string formato) {
-	if (formato == "PPM" || formato == "PGM"){
-		genNetpbm(nombre_archivo,formato);
-	}
-	else
-		throw logic_error ("Formato de salida de tipo desconocido");
-}
 
 void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
 	ifstream input(nombre);
@@ -155,7 +143,9 @@ void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
 			/*Dep*/
 			for (int i = 0; i < rownum; i++) {
 				for (int j = 0; j < colnum; j++) {
-					input.read(reinterpret_cast<char *>(&m[i][j]),3); // Solo para PGM?
+					input.read(reinterpret_cast<char *>(&m[i][j]),1+2*(tipo==PPM)); // Solo para PPM?
+					if (tipo == PGM)
+						m[i][j].b = m[i][j].g = m[i][j].r;
 					if(mascara != NULL)
 						mask.read(reinterpret_cast<char *>(&m[i][j].alpha),1);
 					else m[i][j].alpha = 0xff;
@@ -185,10 +175,64 @@ void Imagen::genNetpbm (const char* nombre_archivo, const string& formato){
 		output << 0xff << endl;
 		for (i=0; i<rownum; ++i){
 			for (j=0; j<colnum; ++j){
-				output.write(reinterpret_cast<char*>(&m[i][j]),3); // Solo para PGM
+				output.write(reinterpret_cast<char*>(&m[i][j]),1+2*(formato=="PPM"));
 			}
 		}
 	}      
+}
+
+
+/****************** Constructores, destructor y operadores ********************/
+Imagen::Imagen(const Imagen& a_copiar) {
+	colnum = a_copiar.colnum;
+	rownum = a_copiar.rownum;
+
+	reserva(rownum, colnum);
+
+	for (int i = 0; i < rownum; ++i)
+		for (int j = 0; j < colnum; ++j)
+			m[i][j] = a_copiar.m[i][j];
+}
+
+Imagen& Imagen::operator=(const Imagen& nueva) {
+	Imagen copia(nueva); // Se destruirá en el destructor
+
+	Pixel** aux = m;
+	m = copia.m;
+	copia.m = aux;
+
+	int iaux = colnum;
+	colnum = copia.colnum;
+	copia.colnum = iaux;
+
+	iaux = rownum;
+	rownum = copia.rownum;
+	copia.rownum = iaux;
+
+	return *this;
+}
+
+Imagen::~Imagen() {
+	cerr << rownum << endl;
+	for (int i = 0; i < rownum; ++i)
+		delete[] m[i];
+	
+	delete[] m;
+}
+
+/****************** Métodos públicos ********************/
+
+void Imagen::leer(const char* nombre_archivo,const char* mascara) {
+	// Leemos PPM o PGM. Podríamos reusar el lector con cualquier otro tipo
+	leerNetpbm(nombre_archivo, mascara);
+}
+
+void Imagen::escribir(const char* nombre_archivo,const string formato) {
+	if (formato == "PPM" || formato == "PGM"){
+		genNetpbm(nombre_archivo,formato);
+	}
+	else
+		throw invalid_argument("Formato de salida de tipo desconocido");
 }
 
 
@@ -229,7 +273,7 @@ Imagen& Imagen::rotar(double angulo, uint8_t opacidad){
 	newimgrows=(unsigned)ceil((double)new_row_max-new_row_min);
 	newimgcols=(unsigned)ceil((double)new_col_max-new_col_min);
 
-	Imagen* I_output=new Imagen(newimgrows,newimgcols);
+	Imagen I_output(newimgrows,newimgcols);
 	
 	for (int rows=0;rows<newimgrows;rows++){
 		for(int cols=0;cols<newimgcols;cols++){
@@ -241,17 +285,19 @@ Imagen& Imagen::rotar(double angulo, uint8_t opacidad){
 			
 		   if((old_row>=0)&&(old_row<rownum)&&
 			  (old_col>=0)&&(old_col<colnum)){
-				I_output->m[rows][cols] = m[old_row][old_col];
+				I_output.m[rows][cols] = m[old_row][old_col];
 			}
 			else{
-				I_output->m[rows][cols].r=I_output->m[rows][cols].g=I_output->m[rows][cols].b=0xff;
+				/*I_output->m[rows][cols].r=I_output->m[rows][cols].g=I_output->m[rows][cols].b=0xff;
 				// Probar I_output->m[rows][cols] = 0xffffff00
-				I_output->m[rows][cols].alpha=opacidad;
+				I_output->m[rows][cols].alpha=opacidad;*/
+				I_output.m[rows][cols] = 0xffffff00;
 			}
 		}
 	}
 
-	*this = *I_output;
+	*this = I_output;
+
 	return *this;
 	//return I_output;
 }

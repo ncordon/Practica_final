@@ -19,5 +19,4 @@ int main(int argc, char * argv[]){
     angulo = angulo*(M_PI)/180; //Pasamos el angulo radianes
     I.rotar(angulo, 0x00);
     I.escribir(argv[3],"PPM");
-    //I.escribir(argv[3],"PPM");
 }

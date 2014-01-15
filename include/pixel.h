@@ -13,10 +13,10 @@ struct Pixel {
 		*this = nuevo;
 	}
 	Pixel& operator=(unsigned int nuevo) {
-		alpha = (nuevo) && 0xff;
-		r = (nuevo >> 24) && 0xff;
-		g = (nuevo >> 16) && 0xff;
-		b = (nuevo >> 8) && 0xff;
+		alpha = (nuevo) & 0xff;
+		r = (nuevo >> 24) & 0xff;
+		g = (nuevo >> 16) & 0xff;
+		b = (nuevo >> 8) & 0xff;
 
 		return *this;
 	}
