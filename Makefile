@@ -1,27 +1,20 @@
-SRC = src
-INC = include
-OBJ = obj
-BIN = bin
-CXX = g++
-CPPFLAGS = -Wall -g  -I$(INC) -c
+BIN=./bin
+DOC=./doc
+INCLUDE=./include
+LIB=./lib
+OBJ=./obj
+SRC=./src
 
-all: $(BIN)/rota
+all: $(OBJ)/imagen.o $(OBJ)/pruebaimagen.o
+	g++ -o $(BIN)/Practica_final $^
 
-$(BIN)/rota: $(OBJ)/rota.o
-	g++ -o $(BIN)/rota $^
+$(OBJ)/imagen.o: $(SRC)/imagen.cpp $(INCLUDE)/imagen.h
+	g++ -o $(OBJ)/imagen.o -c $< -I$(INCLUDE)
 
-$(OBJ)/rota.o: $(SRC)/pruebarotacion.cpp
-	g++ -o $(OBJ)/rota.o -c $^ -I$(INC)
+$(OBJ)/pruebaimagen.o: $(SRC)/pruebaimagen.cpp 
+	g++ -o $(OBJ)/pruebaimagen.o -c $< -I$(INCLUDE)
 
-
-# ************ Generación de documentación ******************
-documentacion:
-	doxygen doc/doxys/Doxyfile
-
-
-# ************ Limpieza ************
-clean :
-	-rm $(OBJ)/* $(SRC)/*~ $(INC)/*~ ./*~
-
-mrproper : clean
-	-rm $(BIN)/* doc/html/*
+clean:
+	rm $(OBJ)/*.o
+doc:
+	doxygen $(DOC)/doxys/Doxyfile
