@@ -297,18 +297,19 @@ Imagen& Imagen::rotar(double angulo) {
 }
 
 Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
-	int v_begin = MIN(lugar.first, rownum);
-	int v_end = MIN(lugar.first + nueva.rownum, rownum);
-	int h_begin = MIN(lugar.second, colnum);
-	int h_end = MIN(lugar.first + nueva.rownum, rownum);
+	int v_begin = MAX(MIN(lugar.first, rownum), 0);
+	int v_end = MAX(MIN(lugar.first + nueva.rownum, rownum), 0);
+	int h_begin = MAX(MIN(lugar.second, colnum), 0);
+	int h_end = MAX(MIN(lugar.second + nueva.colnum, colnum), 0);
 
 	for (int i = v_begin; i < v_end; ++i)
 		for (int j = h_begin; j < h_end; ++j) {
-			double opacity = nueva.m[i][j].alpha/255.0;
+			int k = i-lugar.first, l = j-lugar.second;
+			double opacity = nueva.m[k][l].alpha/255.0;
 
-			m[i][j].r = m[i][j].r*(1-opacity) + nueva.m[i][j].r*opacity;
-			m[i][j].g = m[i][j].g*(1-opacity) + nueva.m[i][j].g*opacity;
-			m[i][j].b = m[i][j].b*(1-opacity) + nueva.m[i][j].b*opacity;
+			m[i][j].r = m[i][j].r*(1-opacity) + nueva.m[k][l].r*opacity;
+			m[i][j].g = m[i][j].g*(1-opacity) + nueva.m[k][l].g*opacity;
+			m[i][j].b = m[i][j].b*(1-opacity) + nueva.m[k][l].b*opacity;
 		}
 
 	return *this;

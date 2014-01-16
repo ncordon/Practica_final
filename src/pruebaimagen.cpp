@@ -42,6 +42,7 @@ int main(int argc, char * argv[]) {
 	tp=BLENDING;
 
 	*/
+	I.superponer(Ip, ubicacion);
 
-	I.superponer(Ip, ubicacion).escribir(argv[4], "PPM");
+	I.escribir(argv[4], "PPM");
 }
