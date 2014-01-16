@@ -5,16 +5,22 @@ LIB=./lib
 OBJ=./obj
 SRC=./src
 
-all: rota
+all: rota pega
 
-rota: $(OBJ)/imagen.o $(OBJ)/pruebaimagen.o
+rota: $(OBJ)/imagen.o $(OBJ)/pruebarotacion.o
 	g++ -o $(BIN)/rota $^
+
+pega: $(OBJ)/imagen.o $(OBJ)/pruebapegado.o
+	g++ -o $(BIN)/pega $^
 
 $(OBJ)/imagen.o: $(SRC)/imagen.cpp $(INCLUDE)/imagen.h
 	g++ -o $(OBJ)/imagen.o -c $< -I$(INCLUDE)
 
-$(OBJ)/pruebaimagen.o: $(SRC)/pruebaimagen.cpp 
-	g++ -o $(OBJ)/pruebaimagen.o -c $< -I$(INCLUDE)
+$(OBJ)/pruebarotacion.o: $(SRC)/pruebarotacion.cpp 
+	g++ -o $(OBJ)/pruebarotacion.o -c $< -I$(INCLUDE)
+
+$(OBJ)/pruebapegado.o: $(SRC)/pruebapegado.cpp 
+	g++ -o $(OBJ)/pruebapegado.o -c $< -I$(INCLUDE)
 
 clean:
 	rm $(OBJ)/*.o
