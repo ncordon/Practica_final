@@ -4,10 +4,10 @@
 #include "inttypes.h"
 
 struct Pixel {
-	uint8_t r,	//<-- rojo (de 0x0 a 0xff)
-		g,		//<-- verde (de 0x0 a 0xff)
-		b,		//<-- azul (de 0x0 a 0xff)
-		alpha;	//<-- opacidad (de 0x0, opaco, a 0xff, transparente)
+	uint8_t r,	/**<-- rojo (de 0x0 a 0xff) */
+		g,		/**<-- verde (de 0x0 a 0xff) */
+		b,		/**<-- azul (de 0x0 a 0xff) */
+		alpha;	/**<-- opacidad (de 0x0, opaco, a 0xff, transparente) */
 
 	/**
 	 * @brief Constructor sin parámetros.
@@ -38,6 +38,12 @@ struct Pixel {
 		b = (nuevo >> 8) & 0xff;
 
 		return *this;
+	}
+
+	operator unsigned() {
+		// (unsigned)r << 24 | (unsigned)g << 16 | (unsigned)b << 8 | alpha
+		unsigned out = (((((r <<= 24) |= g) <<= 16) |= b) <<= 8) |= alpha;
+		return out;
 	}
 };
 

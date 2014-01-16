@@ -9,6 +9,8 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <inttypes.h>
+
 using namespace std;
 
 /**
@@ -125,13 +127,25 @@ public:
 	Imagen& rotar(double angulo);
 	/**
 	 * @brief Permite realizar un pegado de una imagen sobre la actual
+	 * @param nueva Imagen a pegar sobre la actual
+	 * @param lugar Posición (fila, columna) donde ubicar la Imagen `nueva`
+	 * @return referencia al objeto actual
 	 */
 	Imagen& superponer(const Imagen& nueva, Posicion lugar);
+
+	/**
+	 * @brief Aplica una transparencia uniformemente en todos los
+	 * píxeles visibles de la imagen actual
+	 * @param nuevoalpha nuevo valor de opacidad (de 0x0 a 0xff)
+	 * @return referencia al objeto actual
+	 */
+	Imagen& aplicarOpacidad(uint8_t nuevoalpha);
+
 	/**
 	 * @brief Permite leer una imagen almacenándo su decodificación en píxeles
 	 * @param nombre_archivo
 	 */
-	Imagen& leer(const char* nombre_archivo, const char* mascara);
+	Imagen& leer(const char* nombre_archivo, const char* mascara = 0);
 	/**
 	 * @brief (otra función graciosa)
 	 * @param nombre_archivo

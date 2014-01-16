@@ -1,4 +1,6 @@
 #include "imagen.h"
+#define MAX(a, b) (a > b ? a : b)
+#define MIN(a, b) (a < b ? a : b)
 
 /****************** Métodos privados ********************/
 void Imagen::reserva(unsigned int nr, unsigned int nc) {
@@ -285,7 +287,7 @@ Imagen& Imagen::rotar(double angulo) {
 			nueva.m[rows][cols] =
 				(old_row >= 0 && old_row < rownum && old_col >= 0 && old_col < colnum) ? 
 				m[old_row][old_col] :
-				0xffffff00; // Valor por defecto: blanco transparente
+				(Pixel)0xffffff00; // Valor por defecto: blanco transparente
 		}
 	}
 
@@ -295,5 +297,28 @@ Imagen& Imagen::rotar(double angulo) {
 }
 
 Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
+	int v_begin = MIN(lugar.first, rownum);
+	int v_end = MIN(lugar.first + nueva.rownum, rownum);
+	int h_begin = MIN(lugar.second, colnum);
+	int h_end = MIN(lugar.first + nueva.rownum, rownum);
+
+	for (int i = v_begin; i < v_end; ++i)
+		for (int j = h_begin; j < h_end; ++j) {
+			double opacity = nueva.m[i][j].alpha/255.0;
+
+			m[i][j].r = m[i][j].r*(1-opacity) + nueva.m[i][j].r*opacity;
+			m[i][j].g = m[i][j].g*(1-opacity) + nueva.m[i][j].g*opacity;
+			m[i][j].b = m[i][j].b*(1-opacity) + nueva.m[i][j].b*opacity;
+		}
+
+	return *this;
+}
+
+Imagen& Imagen::aplicarOpacidad(uint8_t nuevoalpha) {
+	for (int i = 0; i < rownum; ++i)
+		for (int j = 0; j < colnum; ++j)
+			if (m[i][j].alpha > 0)
+				m[i][j].alpha = nuevoalpha;
+
 	return *this;
 }
