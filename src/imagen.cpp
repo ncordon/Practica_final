@@ -284,10 +284,10 @@ Imagen& Imagen::rotar(double angulo) {
 			int old_row=ceil((cols+new_col_min)*seno+
 							 (rows+new_row_min)*coseno);
 			
-			nueva.m[rows][cols] =
+			nueva.m[rows][cols].valor =
 				(old_row >= 0 && old_row < rownum && old_col >= 0 && old_col < colnum) ? 
-				m[old_row][old_col] :
-				(Pixel)0xffffff00; // Valor por defecto: blanco transparente
+				m[old_row][old_col].valor :
+				0xffffffff; // Valor por defecto: blanco transparente
 		}
 	}
 
