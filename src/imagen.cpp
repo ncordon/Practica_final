@@ -284,9 +284,9 @@ Imagen& Imagen::rotar(double angulo) {
 			int old_row=ceil((cols+new_col_min)*seno+
 							 (rows+new_row_min)*coseno);
 			
-			nueva.m[rows][cols].valor =
+			nueva.m[rows][cols] =
 				(old_row >= 0 && old_row < rownum && old_col >= 0 && old_col < colnum) ? 
-				m[old_row][old_col].valor :
+				m[old_row][old_col] :
 				0xffffffff; // Valor por defecto: blanco transparente
 		}
 	}
@@ -316,10 +316,11 @@ Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
 }
 
 Imagen& Imagen::aplicarOpacidad(uint8_t nuevoalpha) {
+	double opacity = nuevoalpha/255.0;
+
 	for (int i = 0; i < rownum; ++i)
 		for (int j = 0; j < colnum; ++j)
-			if (m[i][j].alpha > 0)
-				m[i][j].alpha = nuevoalpha;
+				m[i][j].alpha *= opacity;
 
 	return *this;
 }
