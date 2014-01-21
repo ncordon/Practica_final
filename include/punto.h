@@ -13,15 +13,15 @@ using namespace std;
  * @class Punto
  * 
  * TDA Punto. Permite almacenar y acceder a puntos de RxR que representan la
- * localización geográfica de un punto, vía su latitud y su altitud
+ * localización geográfica de un punto, via su latitud y su altitud
  * 
  */
 
-class Punto{
+class Punto {
 private:
     double latitud;             ///< Latitud de un punto    
     double longitud;            ///< Longitud de un punto
-    string descripcion;         ///< Descripción sobre el punto
+    string desc;         ///< Descripción sobre el punto
 public:
     /**
      * @brief Constructor por defecto
@@ -34,34 +34,34 @@ public:
      * @param descripcion
      */
     Punto (double latitud, double longitud, string descripcion="");
+
+    /**
+     * @brief Permite obtener la latitud de un punto
+     * @return latitud
+     */
+    double getLatitud() { return latitud; }
+    /**
+     * @brief Permite obtener la longitud de un punto
+     * @return longitud
+     */
+    double getLongitud() { return longitud; }
+    /**
+     * @brief Permite modificar la descripción de un punto
+     * @return referencia a la descripción del punto
+     */
+    string& descripcion() { return desc; }
+    /**
+     * @brief Permite consultar la descripción de un punto
+     * @return referencia constante a la descripción del punto
+     */
+    const string& descripcion() const { return desc; }
+
     /**
      * @brief Operador de asignación
      * @param otro_punto instancia de Punto a copiar
      * @return referencia a this
      */
     Punto& operator=(const Punto& otro_punto);
-    /**
-     * @brief Permite obtener la latitud de un punto
-     * @return latitud
-     */
-    double getLatitud(){ return latitud; }
-    /**
-     * @brief Permite obtener la longitud de un punto
-     * @return longitud
-     */
-    double getLongitud(){ return longitud; }
-    /**
-     * @brief Permite obtener la descripción de un punto
-     * @return descripción del punto
-     */
-    string getDescripcion(){ return descripcion; }
-    /**
-     * @brief Permite agregar o cambiar la descripción del punto
-     * @param descripcion cadena con la descripcion deseada
-     */
-    void setDescripcion(string descripcion){
-        this->descripcion=descripcion;
-    }
     /**
      * @brief Permite leer un punto desde la entrada estándar
      * @param input stream de entrada

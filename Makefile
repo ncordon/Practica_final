@@ -5,12 +5,12 @@ LIB=./lib
 OBJ=./obj
 SRC=./src
 
-all: rota pega
+all: $(BIN)/rota $(BIN)/pega
 
-rota: $(OBJ)/imagen.o $(OBJ)/pruebarotacion.o
+$(BIN)/rota: $(OBJ)/imagen.o $(OBJ)/pruebarotacion.o
 	g++ -o $(BIN)/rota $^
 
-pega: $(OBJ)/imagen.o $(OBJ)/pruebapegado.o
+$(BIN)/pega: $(OBJ)/imagen.o $(OBJ)/pruebapegado.o
 	g++ -o $(BIN)/pega $^
 
 $(OBJ)/imagen.o: $(SRC)/imagen.cpp $(INCLUDE)/imagen.h
@@ -27,5 +27,7 @@ clean:
 cleanall: clean
 	rm $(BIN)/*
 	rm -r $(DOC)/html
-doc:
+documentacion:
 	doxygen $(DOC)/doxys/Doxyfile
+
+.PHONY: clean cleanall documentacion all

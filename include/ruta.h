@@ -20,10 +20,10 @@ public:
     /// Iterador constante
     typedef list<Punto>::const_iterator const_iterator;
     
-    iterator begin(){
+    iterator begin() {
         return camino.begin();
     }
-    iterator end(){
+    iterator end() {
         return camino.end();
     }
     const_iterator begin()const{
@@ -36,23 +36,23 @@ public:
      * @brief Permite encontrar un punto en la ruta
      * @return iterador a dicho Punto
      */
-    iterator find(const Punto &pto){
+    iterator find(const Punto &pto) {
         iterator it;
         
-        for (it=begin(); it!=end() && !((*it)==pto);++it){}
+        for (it=begin(); it!=end() && !((*it)==pto);++it);
         
         return it;
     }
     /**
      * @brief Constructor sin parámetros
      */
-    Ruta(){}
+    Ruta() {}
     /**
      * @brief Constructor con parámetros
      * @param camino de Puntos
      * @param id identificador de la ruta
      */
-    Ruta(list<Punto> camino, string id=""){
+    Ruta(list<Punto> camino, string id="") {
         this->camino=camino;
         this->id=id;
     }
@@ -61,32 +61,32 @@ public:
      * @param pto instancia de la clase Punto
      * @note función inline
      */
-    void aniade(const Punto& pto){
+    void agrega(const Punto& pto) {
         camino.push_back(pto);
     }
     /**
      * @brief Permite obtener el identificador de la ruta
      * @return identificador
      */
-    string getID(){
+    string& identificador() {
         return id;
     }
     /**
      * @brief Permite modificar el identificador de ruta
-     * @param id nuevo identificador
+     * @return identificador
      */
-    void setID(string id){
-        this->id=id;
+    const string& identificador() const {
+        return id;
     }
     /**
      * @brief Permite borrar un punto de la ruta
      * @param pto a borrar
      * @return true si se hallaba en la ruta
      */
-    void elimina(const Punto& pto){
+    void elimina(const Punto& pto) {
         camino.remove(pto);
     }
-    int getTamanio(){
+    int getTamanio() {
         return camino.size();
     }
     /**
