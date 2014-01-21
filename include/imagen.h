@@ -134,8 +134,7 @@ public:
 	Imagen& superponer(const Imagen& nueva, Posicion lugar);
 
 	/**
-	 * @brief Aplica una transparencia uniformemente en todos los
-	 * píxeles visibles de la imagen actual
+	 * @brief Aplica una transparencia uniformemente en todos los píxeles visibles
 	 * @param nuevoalpha nuevo valor de opacidad (de 0x0 a 0xff)
 	 * @return referencia al objeto actual
 	 */
@@ -144,15 +143,20 @@ public:
 	/**
 	 * @brief Permite leer una imagen almacenándo su decodificación en píxeles
 	 * @param nombre_archivo
+         * @param mascara de opacidad
 	 */
 	Imagen& leer(const char* nombre_archivo, const char* mascara = 0);
 	/**
-	 * @brief (otra función graciosa)
+	 * @brief Permite leer una imagen desde un archivo dado
 	 * @param nombre_archivo
+         * @param formato para lectura de imagen
 	 */
 	Imagen& escribir(const char* nombre_archivo, const string formato);
-	
-	/* Depuración*/
+	/**
+         * @brief Sobrecarga del operador << para imprimir imágenes
+         * @param output flujo de salida
+         * @param img a imprimir
+         */
 	friend ostream& operator << (ostream& output, const Imagen& img); 
 };
 
