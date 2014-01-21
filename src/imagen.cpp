@@ -23,12 +23,6 @@ bool Imagen::leerCabecera (ifstream& input, int& filas, int& columnas){
 	
 	input >> columnas >> filas >> max_gris;
 	
-	/* DEPURACIÓN
-	cout << "Columnas "<<columnas << endl;
-	cout << "Filas " <<filas << endl;
-	cout << max_gris << endl;
-	*/
-	
 	if (input && filas>0 && filas <max_valor && columnas >0 && columnas<max_valor){
 		input.get(); // Saltamos separador
 		return true;
@@ -65,65 +59,6 @@ Imagen::TipoImagen Imagen::leerTipo(ifstream& input){
 	}
 	return leida;
 }
-/*
-void Imagen::leer(char nombre_archivo[], char nombre_mascara[] = "") {
-	ifstream f(nombre_archivo);
-	TipoImagen tipo = leerTipo(f);
-
-	if (tipo == IMG_PPM)
-		leerPPM(f, nombre_mascara);
-	else if (tipo == IMG_PGM)
-		leerPGM(f, nombre_mascara);
-}
-
-void Imagen::escribir(char nombre_archivo[]) {
-
-}
-
-
-void Imagen::leerPPM (ifstream& f, const char nmask[]="") {
-	bool gestionar_mascara = nmask[0] != '\0';
-	ifstream mask;
-	if (gestionar_mascara) mask.open(nmask);
-
-	if (gestionar_mascara) leerTipo(mask); // precondición: mask es PGM
-	// LeerCabecera(mask...) ?
-	if (leerCabecera (f)) {
-		reserva(rownum, colnum);
-
-		for (int i = 0; i < rownum; i++) {
-			for (int j = 0; j < colnum; j++) {
-				f.read(reinterpret_cast<char *>(&m[i][j]),3);
-				if (gestionar_mascara)
-					mask.read(reinterpret_cast<char *>(&m[i][j].alpha),1);
-				else
-					m[i][j].alpha = 0xff;
-			}
-		}
-	}
-}
-void Imagen::leerPGM (ifstream& f, const char nmask[]="") {
-	/*bool gestionar_mascara = nmask[0] != '\0';
-	if (gestionar_mascara) ifstream mask(nmask);
-
-	if (gestionar_mascara) leerTipo(mask); // precondición: mask es PGM
-	// LeerCabecera(mask...) ?
-	if (leerCabecera (f)) {
-		reserva(rownum, colnum);
-
-		for (int i = 0; i < rownum; i++) {
-			for (int j = 0; j < colnum; j++) {
-				f.read(reinterpret_cast<char *>(m[i][j]),1);
-				m[i][j].b = m[i][j].g = m[i][j].r;
-				if (gestionar_mascara)
-					mask.read(reinterpret_cast<char *>(&m[i][j].alpha),1);
-				else
-					m[i][j].alpha = 0xff;
-			}
-		}
-	}
-}*/
-
 
 void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
 	ifstream input(nombre);
