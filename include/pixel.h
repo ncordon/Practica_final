@@ -3,15 +3,6 @@
 
 #include "inttypes.h"
 
-union Pixel2 {
-	struct {
-		/** El orden de los valores permite asignar el valor
-			en el formato 0xRRGGBBAA                         **/
-		uint8_t r, g, b, alpha;
-	};
-	uint32_t valor;
-};
-
 struct Pixel {
 	uint8_t r, g, b, alpha;
 

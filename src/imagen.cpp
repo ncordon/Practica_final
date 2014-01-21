@@ -316,11 +316,9 @@ Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
 }
 
 Imagen& Imagen::aplicarOpacidad(uint8_t nuevoalpha) {
-	double opacity = nuevoalpha/255.0;
-
 	for (int i = 0; i < rownum; ++i)
 		for (int j = 0; j < colnum; ++j)
-				m[i][j].alpha *= opacity;
+				m[i][j].alpha = (m[i][j].alpha > 0)*nuevoalpha;
 
 	return *this;
 }
