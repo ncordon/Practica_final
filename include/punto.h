@@ -87,7 +87,7 @@ public:
     bool operator == (const Punto& otro_punto){
         return ((otro_punto.latitud==this->latitud) &&
                 (otro_punto.longitud==this->longitud) &&
-                (otro_punto.descripcion==this->descripcion));
+                (otro_punto.desc==this->desc));
     }
     /**
      * @brief Operador <

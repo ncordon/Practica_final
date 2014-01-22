@@ -1,10 +1,10 @@
 #include "almacenrutas.h"
 
 istream & operator>>(istream& input, AlmacenRutas& un_almacen){
-    auto eraseDelim=[](istream& input)->void{
+    auto eraseDelim = [](istream& input) -> void{
         while (input && (input.peek()=='\t' ||input.peek()==' ' || input.peek()=='\n'))
             input.get();
-        };
+    };
     
     un_almacen.clear();
     string palabra_magica;
@@ -24,7 +24,7 @@ istream & operator>>(istream& input, AlmacenRutas& un_almacen){
                     input.setstate(ios::failbit);
                     return input;
                 }
-                un_almacen.aniade(actual);
+                un_almacen.agrega(actual);
                 eraseDelim (input);
             }
             else
@@ -37,12 +37,13 @@ istream & operator>>(istream& input, AlmacenRutas& un_almacen){
                 eraseDelim(input);
                 while (input >> pto){
                     AlmacenRutas::iterator it;
+                    string newdescripcion;
+                    getline(input, newdescripcion);
+
                     for (it = un_almacen.begin(); it!= un_almacen.end();++it){
                         Ruta::iterator p = ((*it).second).find(pto);
                         if (p!=(it->second).end()){
-                            string descripcion;
-                            getline(input,descripcion);
-                            (*p).setDescripcion(descripcion);
+                            (*p).descripcion() = newdescripcion;
                         }  
                         
                     } 
@@ -69,7 +70,7 @@ bool AlmacenRutas::elimina (const string& id){
         // lineal en la ruta
         for (Ruta::const_iterator p = it->second.begin(); p!=it->second.end(); ++p){
             // log
-            map <Punto,set<string>>::iterator k = puntos_rutas.find(*p);
+            map <Punto,set<string> >::iterator k = puntos_rutas.find(*p);
             if(k != puntos_rutas.end()){
                 // log
                 k->second.erase(id);
@@ -82,13 +83,13 @@ bool AlmacenRutas::elimina (const string& id){
     return false;
 }
 
-void AlmacenRutas::aniade (Ruta& una_ruta){
-    string id=una_ruta.getID();
+void AlmacenRutas::agrega (Ruta& una_ruta){
+    string id=una_ruta.identificador();
     almacen.insert(pair<string,Ruta>(id,una_ruta));
     
     for (Ruta::const_iterator it=una_ruta.begin(); it!=una_ruta.end(); ++it){
-        pair<map<Punto,set<string>>::iterator,bool> ret;
-        ret = puntos_rutas.insert(pair<Punto,set<string>>(*it,set<string>()));
+        pair<map<Punto,set<string> >::iterator,bool> ret;
+        ret = puntos_rutas.insert(pair<Punto,set<string> >(*it,set<string>()));
         ret.first->second.insert(id);
     }
 }

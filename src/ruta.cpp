@@ -24,7 +24,7 @@ istream& operator >> (istream& input, Ruta& una_ruta){
             input.setstate(ios::failbit);
             break;
         }
-        una_ruta.aniade (actual);
+        una_ruta.agrega(actual);
     }
     
     return input;                  

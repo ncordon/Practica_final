@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     
     for (it = mi_almacen.begin(); it != mi_almacen.end(); ++it){
         Ruta::iterator p;
-        cout << it->second.getID() << '\t'; 
+        cout << it->second.identificador() << '\t'; 
         for (p = it->second.begin(); p!=it->second.end(); ++p){
             
             cout << (*p) << " ";
@@ -43,10 +43,10 @@ int main(int argc, char *argv[]){
     cout << una_ruta;
     
     cout << "Agregamos la ruta al almacén" << endl;
-    mi_almacen.aniade(una_ruta);
+    mi_almacen.agrega(una_ruta);
     cout << mi_almacen;
     
     cout << "Borramos la ruta del almacén" << endl;
-    mi_almacen.elimina(una_ruta.getID());
+    mi_almacen.elimina(una_ruta.identificador());
     cout << mi_almacen;
 }

@@ -12,7 +12,7 @@
 class AlmacenRutas{
 private:
     map <string,Ruta> almacen;          ///< identificador de Ruta, instancia Ruta
-    map <Punto, set<string>> puntos_rutas;///< Rutas en que aparece un Punto
+    map <Punto, set<string> > puntos_rutas;///< Rutas en que aparece un Punto
 public:
     /**
      * @brief Constructor sin parámetros
@@ -67,9 +67,10 @@ public:
     bool elimina (const string& id);
     /**
      * @brief Permite aniadir una nueva ruta al almacén
+     *                  ^ ¿En serio? xD
      * @param una_ruta Ruta a aniadir
      */
-    void aniade (Ruta& una_ruta);
+    void agrega (Ruta& una_ruta);
     /**
      * @brief Sobrecarga del operador lectura
      * @note Función friend
