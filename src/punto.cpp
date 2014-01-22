@@ -21,18 +21,17 @@ istream& operator >>(istream& input, Punto& un_punto){
                         return true;
                     };
                     
-    if (!leeSeparador(input))
-        goto Final;
-    input >> latitud;
-    if (!leeSeparador(input))
-        goto Final;
-    input >> longitud;
-    if (!leeSeparador(input))
-        goto Final;
+    if (leeSeparador(input)) {
+        input >> latitud;
+
+        if (leeSeparador(input)) {
+            input >> longitud;
+
+            if (leeSeparador(input))
+                un_punto = Punto (latitud, longitud);
+        }
+    }
     
-    un_punto = Punto (latitud, longitud);
-    
-    Final:
     return input;
 }
 

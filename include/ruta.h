@@ -86,7 +86,12 @@ public:
     void elimina(const Punto& pto) {
         camino.remove(pto);
     }
-    int getTamanio() {
+
+    /**
+     * @brief Informa del tamaño de la Ruta
+     * @return número de Puntos de la Ruta
+     */
+    int size() {
         return camino.size();
     }
     /**
