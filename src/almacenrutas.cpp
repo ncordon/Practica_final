@@ -12,7 +12,7 @@ istream & operator>>(istream& input, AlmacenRutas& un_almacen){
     input >> palabra_magica;
     
     if (palabra_magica == "#Rutas"){
-        bool continuar=true;
+        bool continuar = true;
         Ruta actual;
         eraseDelim(input);
         
@@ -41,8 +41,8 @@ istream & operator>>(istream& input, AlmacenRutas& un_almacen){
                     getline(input, newdescripcion);
 
                     for (it = un_almacen.begin(); it!= un_almacen.end();++it){
-                        Ruta::iterator p = ((*it).second).find(pto);
-                        if (p!=(it->second).end()){
+                        Ruta::iterator p = (*it).find(pto);
+                        if (p!=(*it).end()){
                             (*p).descripcion() = newdescripcion;
                         }  
                         
@@ -57,25 +57,24 @@ istream & operator>>(istream& input, AlmacenRutas& un_almacen){
 ostream & operator<<(ostream& output, const AlmacenRutas un_almacen){
     AlmacenRutas::const_iterator it;
     for (it = un_almacen.begin(); it != un_almacen.end(); ++it){
-        output << it->second;
+        output << *it;
     }
     return output;
 }
 
 bool AlmacenRutas::elimina (const string& id){
     // log
-    map<string,Ruta>::iterator it=almacen.find(id);
+    iterator it = codigos_rutas.find(id)->second;
     // Comprobamos que se ha encontrado la ruta en el almacén
     if (it != almacen.end()){
         // lineal en la ruta
-        for (Ruta::const_iterator p = it->second.begin(); p!=it->second.end(); ++p){
+        for (Ruta::const_iterator p = (*it).begin(); p != (*it).end(); ++p){
             // log
-            map <Punto,set<string> >::iterator k = puntos_rutas.find(*p);
-            if(k != puntos_rutas.end()){
-                // log
-                k->second.erase(id);
-            }
+            vector<iterator> *k = &puntos_rutas.at(*p);
+            k->erase(find(k->begin(), k->end(), it));
         }
+
+        codigos_rutas.erase(id);
         almacen.erase(it);
         return true;
     }
@@ -84,12 +83,14 @@ bool AlmacenRutas::elimina (const string& id){
 }
 
 void AlmacenRutas::agrega (Ruta& una_ruta){
-    string id=una_ruta.identificador();
-    almacen.insert(pair<string,Ruta>(id,una_ruta));
+    almacen.push_back(una_ruta);
+    iterator pos = --end();
+    codigos_rutas.insert(pair<string,iterator>(una_ruta.identificador(),pos));
     
     for (Ruta::const_iterator it=una_ruta.begin(); it!=una_ruta.end(); ++it){
-        pair<map<Punto,set<string> >::iterator,bool> ret;
-        ret = puntos_rutas.insert(pair<Punto,set<string> >(*it,set<string>()));
-        ret.first->second.insert(id);
+        //pair<map<Punto,set<iterator> >::iterator,bool> ret;
+        //ret = puntos_rutas.insert(pair<Punto,set<iterator> >(*it,set<iterator>()));
+        //ret.first->second.insert(pos);
+        puntos_rutas[*it].push_back(pos);
     }
 }
