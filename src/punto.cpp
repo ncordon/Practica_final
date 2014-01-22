@@ -36,16 +36,10 @@ istream& operator >>(istream& input, Punto& un_punto){
     return input;
 }
 
-Punto::Punto (double latitud, double longitud, string descripcion){
-    this->latitud=latitud;
-    this->longitud=longitud;
-    this->descripcion=descripcion;
-}
-
 Punto& Punto::operator=(const Punto& otro_punto){
     longitud=otro_punto.longitud;
     latitud=otro_punto.latitud;
-    descripcion=otro_punto.longitud;
+    desc=otro_punto.desc;
     
     return *this;
 }

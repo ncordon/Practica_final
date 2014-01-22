@@ -33,7 +33,8 @@ public:
      * @param longitud
      * @param descripcion
      */
-    Punto (double latitud, double longitud, string descripcion="");
+    Punto (double lat, double lon, string descripcion="")
+        :latitud(lat), longitud(lon), desc(descripcion) {}
 
     /**
      * @brief Permite obtener la latitud de un punto
