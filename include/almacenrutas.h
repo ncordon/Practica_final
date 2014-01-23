@@ -3,24 +3,16 @@
 
 #include "ruta.h"
 #include <map>
-#include <vector>
-#include <algorithm>
+#include <set>
 /**
  * @class AlmacenRutas
  * TDA que permite manejar una serie de rutas, y realizar operaciones de inserción,
  * borrado y consulta sobre ellas
  */
 class AlmacenRutas{
-public:
-    /// Iterador
-    typedef list<Ruta>::iterator iterator;
-    /// Iterador constante
-    typedef list<Ruta>::const_iterator const_iterator;
-
 private:
-    list<Ruta> almacen;     ///< contenedor de objetos de Ruta
-    map <string,iterator> codigos_rutas;        ///< identificador de Ruta, posición de Ruta
-    map <Punto, vector<iterator> > puntos_rutas;   ///< posiciones a Rutas en que aparece un Punto
+    map <string,Ruta> almacen;          ///< identificador de Ruta, instancia Ruta
+    map <Punto, set<string> > puntos_rutas;///< Rutas en que aparece un Punto
 public:
     /**
      * @brief Constructor sin parámetros
@@ -32,24 +24,27 @@ public:
      * @return referencia constante a la Ruta
      */
     const Ruta& operator[](string& id){
-        return *(codigos_rutas[id]);
+        return almacen[id];
     }
     /**
      * @brief Permite obtener una relación de las rutas en las que se encuentra un pto
      * @param pto para el que se desea obtener la relación de rutas en que aparece
      * @return vector de identificadores de rutas para el punto dado
      */
-    const vector<iterator>& rutasIncluyendoPunto (const Punto& pto){
+    const set<string>& rutasIncluyendoPunto (const Punto& pto){
         return puntos_rutas[pto];
     }
     /**
      * @brief Permite reinicializar todo un almacén de rutas
      */
     void clear(){
-        //almacen.clear();
-        //codigos_rutas.clear();
-        //puntos_rutas.clear();
+        almacen.clear();
+        puntos_rutas.clear();
     }
+    /// Iterador
+    typedef map<string,Ruta>::iterator iterator;
+    /// Iterador constante
+    typedef map<string,Ruta>::const_iterator const_iterator;
     
     iterator begin(){
         return almacen.begin();
