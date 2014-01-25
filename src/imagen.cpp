@@ -64,7 +64,12 @@ void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
 	ifstream input(nombre);
 	ifstream mask(mascara);
 	
-	TipoImagen tipo=leerTipo(input);
+	TipoImagen tipo = leerTipo(input);
+	bool isPPM = tipo == PPM;
+	
+	// Avanzamos la máscara hasta la posición de lectura de puntos
+	leerTipo(mask);
+	leerCabecera(mask, rownum, colnum);
 	
 	if (leerCabecera (input, rownum, colnum)) {
 		reserva(rownum, colnum);
@@ -73,12 +78,15 @@ void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
 			/*Dep*/
 			for (int i = 0; i < rownum; i++) {
 				for (int j = 0; j < colnum; j++) {
-					input.read(reinterpret_cast<char *>(&m[i][j]),1+2*(tipo==PPM));
-					if (tipo == PGM)
+					input.read(reinterpret_cast<char *>(&m[i][j]),1+2*isPPM);
+
+					if (!isPPM)
 						m[i][j].b = m[i][j].g = m[i][j].r;
+
 					if (mascara != NULL)
 						mask.read(reinterpret_cast<char *>(&m[i][j].alpha),1);
-					else m[i][j].alpha = 0xff;
+					else
+						m[i][j].alpha = 0xff;
 				}
 			}
 		}
@@ -253,7 +261,7 @@ Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
 Imagen& Imagen::aplicarOpacidad(uint8_t nuevoalpha) {
 	for (int i = 0; i < rownum; ++i)
 		for (int j = 0; j < colnum; ++j)
-				m[i][j].alpha = (m[i][j].alpha > 0)*nuevoalpha;
+			m[i][j].alpha = (m[i][j].alpha > 0)*nuevoalpha;
 
 	return *this;
 }

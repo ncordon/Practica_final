@@ -52,7 +52,7 @@ int main(int argc, char* argv[]){
         }
         else
             ang_rot=0;
-        mapa.superponer(almacenp[*it].bandera,ubicacion).superponer(avion.rotar(ang_rot),ubicacion);
+        mapa.superponer(almacenp[*it].bandera,ubicacion).superponer(avion.aplicarOpacidad(0xd0).rotar(ang_rot),ubicacion);
     }
     
     mapa.escribir(prueba,"PPM");
