@@ -247,7 +247,7 @@ Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
 
 	for (int i = v_begin; i < v_end; ++i)
 		for (int j = h_begin; j < h_end; ++j) {
-			int k = i-v_begin, l = j-h_begin;
+			int k = i - v_begin, l = j - h_begin;
 			double opacity = nueva.m[k][l].alpha/255.0;
 
 			m[i][j].r = m[i][j].r*(1-opacity) + nueva.m[k][l].r*opacity;
