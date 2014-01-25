@@ -222,7 +222,7 @@ Imagen& Imagen::rotar(double angulo) {
 			nueva.m[rows][cols] =
 				(old_row >= 0 && old_row < rownum && old_col >= 0 && old_col < colnum) ? 
 				m[old_row][old_col] :
-				0xffffffff; // Valor por defecto: blanco transparente
+				0x00ffffff; // Valor por defecto: blanco transparente
 		}
 	}
 

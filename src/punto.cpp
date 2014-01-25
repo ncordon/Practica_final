@@ -1,7 +1,7 @@
 #include <punto.h>
 
 ostream& operator <<(ostream& output, const Punto& un_punto){
-    output << "(" << un_punto.latitud << "," << un_punto.longitud << ")";        
+    output << "(" << un_punto.first << "," << un_punto.second << ")";        
     return output;
 }
 
@@ -36,8 +36,8 @@ istream& operator >>(istream& input, Punto& un_punto){
 }
 
 Punto& Punto::operator=(const Punto& otro_punto){
-    longitud=otro_punto.longitud;
-    latitud=otro_punto.latitud;
+    first=otro_punto.first;
+    second=otro_punto.second;
     desc=otro_punto.desc;
     
     return *this;

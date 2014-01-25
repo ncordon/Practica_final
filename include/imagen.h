@@ -73,17 +73,15 @@ class Imagen {
 	
 public:
 	/**
-	 * @brief ///Falta describir
+	 * @brief Permite almacenar la posición en filas,columnas de pegado de un país
 	 */
 	typedef pair<unsigned int,unsigned int> Posicion;    
 	/**
 	 * @brief Constructor sin parámetros.
 	 * Crea imagen vacía
 	 */
-	Imagen() {
-		m = 0;
-		rownum = colnum = 0;
-	}
+	Imagen()
+            :m(0),rownum(0),colnum(0) {}
 	/**
 	 * @brief Constructor con parámetros, crea una imagen vacía del tamaño especificado
 	 * @param nr número de filas
@@ -111,7 +109,16 @@ public:
 	 * @brief Destructor
 	 */
 	~Imagen();
-
+    
+        /**
+         * @brief Permite obtener el número de filas
+         */
+        int numFilas(){ return rownum; }
+        
+        /**
+         * @brief Permite obtener el número de columnas
+         */
+        int numColumnas(){ return colnum; }
 	/**
 	 * @brief Sobrecarga del operador [] para consulta y modificación
 	 * @note No comprueba rango

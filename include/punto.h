@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 /**
@@ -10,19 +11,18 @@ using namespace std;
  */
 
 /**
- * @class Punto
+ * @struct Punto
  * 
  * TDA Punto. Permite almacenar y acceder a puntos de RxR que representan la
- * localización geográfica de un punto, via su latitud y su altitud
+ * localización geográfica de un punto, via su latitud y su longitud
+ * 
+ * Punto.first=latitud
+ * Punto.second=longitud
  * 
  */
 
-class Punto {
-private:
-    double latitud;             ///< Latitud de un punto    
-    double longitud;            ///< Longitud de un punto
+struct Punto:public std::pair<double,double> {
     string desc;         ///< Descripción sobre el punto
-public:
     /**
      * @brief Constructor por defecto
      */
@@ -34,18 +34,8 @@ public:
      * @param descripcion
      */
     Punto (double lat, double lon, string descripcion="")
-        :latitud(lat), longitud(lon), desc(descripcion) {}
+        :pair(lat,lon),desc(descripcion) {}
 
-    /**
-     * @brief Permite obtener la latitud de un punto
-     * @return latitud
-     */
-    double getLatitud() { return latitud; }
-    /**
-     * @brief Permite obtener la longitud de un punto
-     * @return longitud
-     */
-    double getLongitud() { return longitud; }
     /**
      * @brief Permite modificar la descripción de un punto
      * @return referencia a la descripción del punto
@@ -85,9 +75,9 @@ public:
      * @return true si son iguales
      */
     bool operator == (const Punto& otro_punto){
-        return ((otro_punto.latitud==this->latitud) &&
-                (otro_punto.longitud==this->longitud) &&
-                (otro_punto.desc==this->desc));
+        return ((otro_punto.first==first) &&
+                (otro_punto.second==second) &&
+                (otro_punto.desc==desc));
     }
     /**
      * @brief Operador <
@@ -96,9 +86,14 @@ public:
      * de sus coordenadas
      */
     bool operator < (const Punto& otro_punto)const{
-        return ((this->longitud<otro_punto.longitud)
-                || (this->longitud==otro_punto.longitud 
-                && (this->latitud<otro_punto.latitud)));
+        return ((first<otro_punto.first)
+                || (first==otro_punto.first
+                && (second<otro_punto.second)));
     }
+    double distancia (const Punto& otro_punto){
+        return sqrt((first-otro_punto.first)*(first-otro_punto.first)+
+                    (second-otro_punto.second)*(second-otro_punto.second));
+    }
+    
 };
 #endif
