@@ -240,14 +240,14 @@ Imagen& Imagen::rotar(double angulo) {
 }
 
 Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
-	int v_begin = MAX(MIN(lugar.first, rownum), 0);
-	int v_end = MAX(MIN(lugar.first + nueva.rownum, rownum), 0);
-	int h_begin = MAX(MIN(lugar.second, colnum), 0);
-	int h_end = MAX(MIN(lugar.second + nueva.colnum, colnum), 0);
+	int v_begin = MAX(MIN(lugar.first - nueva.rownum/2, rownum), 0);
+	int v_end = MAX(MIN(lugar.first + nueva.rownum/2, rownum), 0);
+	int h_begin = MAX(MIN(lugar.second - nueva.colnum/2, colnum), 0);
+	int h_end = MAX(MIN(lugar.second + nueva.colnum/2, colnum), 0);
 
 	for (int i = v_begin; i < v_end; ++i)
 		for (int j = h_begin; j < h_end; ++j) {
-			int k = i-lugar.first, l = j-lugar.second;
+			int k = i-v_begin, l = j-h_begin;
 			double opacity = nueva.m[k][l].alpha/255.0;
 
 			m[i][j].r = m[i][j].r*(1-opacity) + nueva.m[k][l].r*opacity;
