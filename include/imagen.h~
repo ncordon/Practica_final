@@ -143,7 +143,7 @@ public:
 	/**
 	 * @brief Permite leer una imagen almacenándo su decodificación en píxeles
 	 * @param nombre_archivo
-         * @param mascara de opacidad (Si no hay, se hace pegado opaco)
+         * @param mascara de opacidad
 	 */
 	Imagen& leer(const char* nombre_archivo, const char* mascara = 0);
 	/**

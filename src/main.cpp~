@@ -36,6 +36,7 @@ int main(int argc, char* argv[]){
     f_rutas >> almacenr;
     
     Ruta mostrar(almacenr[objetivo]);
+    cout << mostrar;
     Ruta::iterator it, p(mostrar.end()), k;
     --p;
     
