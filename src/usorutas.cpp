@@ -1,9 +1,9 @@
 #include "almacenrutas.h"
 #include <fstream>
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
 
-    if (argc!=2){
+    if (argc!=2) {
         cout<<"Uso del programa: "<< argv[0] << " <fichero de datos>" << endl;
         return -1;
     }

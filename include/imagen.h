@@ -87,7 +87,7 @@ class Imagen {
      * Extrae los comentarios del fichero, lee las dimensiones, y comprueba
      * que se encuentren en el rango correcto 
      */
-    bool leerCabecera (ifstream& input, int& filas, int& columnas);
+    bool leerCabecera (ifstream& input, unsigned int& filas, unsigned int& columnas);
     /**
      * @brief Permite extraer del flujo separadores como espacios
      * @param input flujo de archivo abierto

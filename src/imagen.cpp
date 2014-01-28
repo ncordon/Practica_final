@@ -9,7 +9,7 @@ void Imagen::reserva(unsigned int nr, unsigned int nc) {
         m[i] = new Pixel[nc];
 }
 
-bool Imagen::leerCabecera (ifstream& input, int& filas, int& columnas){
+bool Imagen::leerCabecera (ifstream& input, unsigned int& filas, unsigned int& columnas){
     // Mayor valor de gris
     int max_gris;
     // Mayor width y length en píxeles de una imagen

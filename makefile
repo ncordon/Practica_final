@@ -6,10 +6,14 @@ OBJ=./obj
 SRC=./src
 FLAGS=--std=c++0x #-Wall
 
-all: $(BIN)/ruta
+all: $(BIN)/ruta $(BIN)/rota $(BIN)/pega
 
 $(BIN)/ruta: $(SRC)/main.cpp $(OBJ)/imagen.o $(OBJ)/punto.o $(OBJ)/ruta.o $(OBJ)/almacenrutas.o $(OBJ)/pais.o $(OBJ)/creadorimagenes.o
 	g++ -o $(BIN)/ruta $^ -I$(INCLUDE) $(FLAGS)
+$(BIN)/rota: $(SRC)/pruebarotacion.cpp $(OBJ)/imagen.o
+	g++ -o $(BIN)/ruta $^ -I$(INCLUDE) $(FLAGS)
+$(BIN)/pega: $(SRC)/pruebapegado.cpp $(OBJ)/imagen.o
+	g++ -o $(BIN)/pega $^ -I$(INCLUDE) $(FLAGS)
 
 $(OBJ)/imagen.o: $(SRC)/imagen.cpp $(INCLUDE)/imagen.h
 	g++ -o $(OBJ)/imagen.o -c $< -I$(INCLUDE)
