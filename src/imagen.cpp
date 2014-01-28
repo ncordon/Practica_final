@@ -9,7 +9,7 @@ void Imagen::reserva(unsigned int nr, unsigned int nc) {
         m[i] = new Pixel[nc];
 }
 
-bool Imagen::leerCabecera (ifstream& input, unsigned int& filas, unsigned int& columnas){
+bool Imagen::leerCabecera(ifstream& input, unsigned int& filas, unsigned int& columnas) {
     // Mayor valor de gris
     int max_gris;
     // Mayor width y length en píxeles de una imagen
@@ -21,7 +21,7 @@ bool Imagen::leerCabecera (ifstream& input, unsigned int& filas, unsigned int& c
     
     input >> columnas >> filas >> max_gris;
     
-    if (input && filas>0 && filas <max_valor && columnas >0 && columnas<max_valor){
+    if (input && filas > 0 && filas < max_valor && columnas > 0 && columnas < max_valor){
         input.get(); // Saltamos separador
         return true;
     }
@@ -29,10 +29,10 @@ bool Imagen::leerCabecera (ifstream& input, unsigned int& filas, unsigned int& c
         return false;
 }
 
-char Imagen::saltarSeparadores (ifstream& input){
+char Imagen::saltarSeparadores(ifstream& input) {
     char c = input.peek();
     
-    while (isspace(c)){
+    while (isspace(c)) {
         input.get();
         c = input.peek();
     }
@@ -40,16 +40,16 @@ char Imagen::saltarSeparadores (ifstream& input){
     return c;
 }
 
-Imagen::TipoImagen Imagen::leerTipo(ifstream& input){
+Imagen::TipoImagen Imagen::leerTipo(ifstream& input) {
     char c1,c2;
     TipoImagen leida;
 
     if (input) {
-        c1=input.get();
-        c2=input.get();
-        if (input && c1=='P'){
+        c1 = input.get();
+        c2 = input.get();
+        if (input && c1=='P') {
             switch (c2) {
-                case '5': leida = PGM;break;
+                case '5': leida = PGM; break;
                 case '6': leida = PPM; break;
                 default : leida = UNKNOWN;
             }
@@ -58,7 +58,7 @@ Imagen::TipoImagen Imagen::leerTipo(ifstream& input){
     return leida;
 }
 
-void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
+void Imagen::leerNetpbm(const char* nombre, const char* mascara) {
     ifstream input(nombre);
     ifstream mask(mascara);
     
@@ -76,7 +76,7 @@ void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
             /*Dep*/
             for (int i = 0; i < rownum; i++) {
                 for (int j = 0; j < colnum; j++) {
-                    input.read(reinterpret_cast<char *>(&m[i][j]),1+2*isPPM);
+                    input.read(reinterpret_cast<char *>(&m[i][j]), 1+2*isPPM);
 
                     if (!isPPM)
                         m[i][j].b = m[i][j].g = m[i][j].r;
@@ -92,16 +92,16 @@ void Imagen::leerNetpbm (const char* nombre, const char* mascara) {
     }
 }
 
-void Imagen::genNetpbm (const char* nombre_archivo, const string& formato){
+void Imagen::genNetpbm(const char* nombre_archivo, const string& formato) {
     ofstream output(nombre_archivo);
     int i,j;
     
-    if (output){
+    if (output) {
         if (formato == "PPM")
             output << "P6" << endl;
         else if (formato == "PGM")
             output << "P5" << endl;
-        else{
+        else {
             output.setstate(ios::failbit);
             return;
         }
@@ -109,9 +109,10 @@ void Imagen::genNetpbm (const char* nombre_archivo, const string& formato){
         output << colnum << ' ' << rownum << endl;
         // Imprimimos máximo valor de gris
         output << 0xff << endl;
-        for (i=0; i<rownum; ++i){
-            for (j=0; j<colnum; ++j){
-                output.write(reinterpret_cast<char*>(&m[i][j]),1+2*(formato=="PPM"));
+
+        for (i=0; i<rownum; ++i) {
+            for (j=0; j<colnum; ++j) {
+                output.write(reinterpret_cast<char*>(&m[i][j]), 1+2*(formato == "PPM"));
             }
         }
     }      
@@ -159,14 +160,14 @@ Imagen::~Imagen() {
 
 /****************** Métodos públicos ********************/
 
-Imagen& Imagen::leer(const char* nombre_archivo,const char* mascara) {
+Imagen& Imagen::leer(const char* nombre_archivo, const char* mascara) {
     // Leemos PPM o PGM. Podríamos reusar el lector con cualquier otro tipo
     leerNetpbm(nombre_archivo, mascara);
     return *this;
 }
 
-Imagen& Imagen::escribir(const char* nombre_archivo,const string formato) {
-    if (formato == "PPM" || formato == "PGM"){
+Imagen& Imagen::escribir(const char* nombre_archivo, const string formato) {
+    if (formato == "PPM" || formato == "PGM") {
         genNetpbm(nombre_archivo,formato);
     }
     else
@@ -176,55 +177,56 @@ Imagen& Imagen::escribir(const char* nombre_archivo,const string formato) {
 }
 
 Imagen& Imagen::rotar(double angulo) {
-    double rads=angulo;
+    double rads = angulo;
     double coseno = cos(angulo);
     double seno = sin(angulo);
 
     // Variables para obtener nuevas dimensiones de la imagen
-    int newimgrows,newimgcols, oldrows(numFilas()-1),oldcols(numColumnas()-1);
-    double new_row_min,new_col_min,new_row_max,new_col_max;
-    double x,y;
+    int newimgrows, newimgcols, oldrows(numFilas()-1), oldcols(numColumnas()-1);
+    double new_row_min, new_col_min, new_row_max, new_col_max;
+    double x, y;
 
     // Coordenadas de bordes de imagen a girar
-    int corners[4][2]={ {0,0},
-                            {oldcols,0},
-                            {oldcols,oldrows},
-                            {0,oldrows} };
+    int corners[4][2] = { {0, 0},
+                          {oldcols, 0},
+                          {oldcols, oldrows},
+                          {0, oldrows} };
     
     new_row_min = new_col_min = new_row_max = new_col_max = 0;
     newimgrows = newimgcols = 0;
     
-        for(int i=0; i<4; ++i){    
-            x = corners[i][0]*coseno + corners[i][1]*seno;
-            y = corners[i][1]*coseno - corners[i][0]*seno; 
-            
-            new_col_min=MIN(x,new_col_min);
-            new_col_max=MAX(x,new_col_max);
-            new_row_min=MIN(y,new_row_min);
-            new_row_max=MAX(y,new_row_max);
-        }
+    for (int i=0; i<4; ++i) {    
+        x = corners[i][0]*coseno + corners[i][1]*seno;
+        y = corners[i][1]*coseno - corners[i][0]*seno; 
+        
+        new_col_min = MIN(x,new_col_min);
+        new_col_max = MAX(x,new_col_max);
+        new_row_min = MIN(y,new_row_min);
+        new_row_max = MAX(y,new_row_max);
+    }
     
-    newimgrows=(unsigned)ceil((double)new_row_max-new_row_min);
-    newimgcols=(unsigned)ceil((double)new_col_max-new_col_min);
+    newimgrows = (unsigned)ceil((double)new_row_max - new_row_min);
+    newimgcols = (unsigned)ceil((double)new_col_max - new_col_min);
         
     Imagen nueva(newimgrows,newimgcols);
     
-    for (int rows=0;rows<newimgrows;rows++){
-        for(int cols=0;cols<newimgcols;cols++){
+    for (int rows = 0; rows < newimgrows; rows++) {
+        for (int cols = 0; cols < newimgcols; cols++) {
             // Buscamos la posible antiimagen del píxel nuevo
-            int old_col=ceil((cols+new_col_min)*coseno-
-                             (rows+new_row_min)*seno);
-            int old_row=ceil((cols+new_col_min)*seno+
-                             (rows+new_row_min)*coseno);
+            int old_col = ceil((cols+new_col_min)*coseno-
+                            (rows+new_row_min)*seno);
+            int old_row = ceil((cols+new_col_min)*seno+
+                            (rows+new_row_min)*coseno);
             
             nueva.m[rows][cols] =
                 (old_row >= 0 && old_row < rownum && old_col >= 0 && old_col < colnum) ? 
                 m[old_row][old_col] :
-                0x00ffffff; // Valor por defecto: blanco transparente
+                Pixel(); // Valor por defecto
         }
     }
+    
     *this = nueva;
-        return *this;
+    return *this;
 }
 
 Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
@@ -242,7 +244,7 @@ Imagen& Imagen::superponer(const Imagen& nueva, Imagen::Posicion lugar) {
             m[i][j].g = m[i][j].g*(1-opacity) + nueva.m[k][l].g*opacity;
             m[i][j].b = m[i][j].b*(1-opacity) + nueva.m[k][l].b*opacity;
         }
-        }
+    }
     return *this;
 }
 

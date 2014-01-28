@@ -45,7 +45,8 @@ public:
      * @brief Constructor
      * @param dir path al directorio que almacena las banderas
      */
-    Paises(string dir):dir_banderas(dir){}
+    Paises(string dir)
+        :dir_banderas(dir) {}
     /**
      * @brief Sobrecarga del operador de lectura
      * @param input

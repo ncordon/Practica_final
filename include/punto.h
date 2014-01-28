@@ -87,7 +87,7 @@ public:
      * @param otro_punto
      * @return true si son iguales
      */
-    bool operator == (const Punto& otro_punto){
+    bool operator ==(const Punto& otro_punto) const {
         return ((otro_punto.first==first) &&
                 (otro_punto.second==second) &&
                 (otro_punto.desc==desc));
@@ -98,7 +98,7 @@ public:
      * Comprueba si el punto es menor que otro_punto en base al orden lexicográfico
      * de sus coordenadas
      */
-    bool operator < (const Punto& otro_punto)const{
+    bool operator <(const Punto& otro_punto) const {
         return ((first<otro_punto.first)
                 || (first==otro_punto.first
                 && (second<otro_punto.second)));
@@ -108,7 +108,7 @@ public:
      * @param otro_punto al que calcular la distancia
      * @return distancia euclídea entre las coordenadas de ambos puntos
      */
-    double distancia (const Punto& otro_punto){
+    double distancia (const Punto& otro_punto) {
         return sqrt((first-otro_punto.first)*(first-otro_punto.first)+
                     (second-otro_punto.second)*(second-otro_punto.second));
     }

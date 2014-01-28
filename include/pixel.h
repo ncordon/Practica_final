@@ -26,10 +26,11 @@ struct Pixel {
      * (*px.r*, *px.g*, *px.b*) con opacidad *px.alpha*.
      * 
      */
-    uint8_t r, ///< Rojo
-        g, ///< Verde
-        b, ///< Azul
-        alpha; ///< Valor de opacidad entre 0x0 y 0xff
+    uint8_t r; ///< Rojo
+    uint8_t g; ///< Verde
+    uint8_t b; ///< Azul
+    uint8_t alpha; ///< Valor de opacidad entre 0x0 y 0xff
+
     /**
      * @brief Constructor por defecto.
      * El valor por defecto de un Pixel es blanco transparente
@@ -43,17 +44,12 @@ struct Pixel {
      * @return referencia al objeto actual
      */
     Pixel& operator=(unsigned int valor) {
-        *reinterpret_cast<unsigned int*>(this) = valor;
+        r = valor >> 24;
+        g = valor >> 16;
+        b = valor >> 8;
+        alpha = valor;
 
         return *this;
-    }
-    /**
-     * @brief Permite obtener el valor del Píxel como un entero
-     * del tipo 0xRRGGBBAA
-     * @return entero sin signo con el valor almacenado por el píxel
-     */
-    operator unsigned int() {
-        return *reinterpret_cast<unsigned int*>(this);
     }
 };
 

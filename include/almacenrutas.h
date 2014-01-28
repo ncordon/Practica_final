@@ -46,13 +46,13 @@ public:
      * @param pto para el que se desea obtener la relación de rutas en que aparece
      * @return vector de identificadores de rutas para el punto dado
      */
-    const set<string>& rutasIncluyendoPunto (const Punto& pto){
+    const set<string>& rutasIncluyendoPunto (const Punto& pto) {
         return puntos_rutas[pto];
     }
     /**
      * @brief Permite reinicializar todo un almacén de rutas
      */
-    void clear(){
+    void clear() {
         almacen.clear();
         puntos_rutas.clear();
     }
@@ -79,14 +79,14 @@ public:
      * @brief Iterador constante al inicio
      * @return iterador constante al inicio
      */
-    const_iterator begin()const{
+    const_iterator begin() const {
         return almacen.begin();
     }
     /**
      * @brief Iterador constante al final
      * @return iterador constante al final
      */
-    const_iterator end()const{
+    const_iterator end() const {
         return almacen.end();
     }
     /**
@@ -95,13 +95,12 @@ public:
      * @return true si la ruta existía
      * @note Eficiencia lineal
      */    
-    bool elimina (const string& id);
+    bool elimina(const string& id);
     /**
-     * @brief Permite aniadir una nueva ruta al almacén
-     *                  ^ ¿En serio? xD
-     * @param una_ruta Ruta a aniadir
+     * @brief Permite añadir una nueva ruta al almacén
+     * @param una_ruta Ruta a añadir
      */
-    void agrega (Ruta& una_ruta);
+    void agrega(Ruta& una_ruta);
     /**
      * @brief Sobrecarga del operador lectura
      * @note Función friend

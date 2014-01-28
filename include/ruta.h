@@ -12,7 +12,7 @@
 
  * @author I. Cordón, F.D. Charte
  */
-class Ruta{
+class Ruta {
 private:
     /**
      * @page repRuta Representación del TDA Ruta
@@ -53,14 +53,14 @@ public:
      * @brief Iterador constante al inicio de la ruta
      * @return iterador constante al inicio de la ruta
      */
-    const_iterator begin()const{
+    const_iterator begin() const {
         return camino.begin();
     }
     /**
      * @brief Iterador constante al final de la ruta
      * @return iterador constante al final de la ruta
      */
-    const_iterator end()const{
+    const_iterator end() const {
         return camino.end();
     }
     /**
@@ -70,7 +70,7 @@ public:
     iterator find(const Punto &pto) {
         iterator it;
         
-        for (it=begin(); it!=end() && !((*it)==pto);++it);
+        for (it = begin(); it != end() && !((*it) == pto); ++it);
         
         return it;
     }
@@ -132,7 +132,7 @@ public:
      * @return flujo de entrada
      * @note función amiga
      */
-    friend istream& operator >> (istream& input, Ruta& una_ruta);
+    friend istream& operator>>(istream& input, Ruta& una_ruta);
     /**
      * @brief Muestra una ruta en la entrada estándar
      * @param output stream de salida
@@ -140,7 +140,7 @@ public:
      * @return flujo de salida
      * @note función amiga
      */
-    friend ostream& operator << (ostream& output, const Ruta& una_ruta);
+    friend ostream& operator<<(ostream& output, const Ruta& una_ruta);
 };
 #endif
     
