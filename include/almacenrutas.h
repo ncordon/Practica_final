@@ -8,9 +8,24 @@
  * @class AlmacenRutas
  * TDA que permite manejar una serie de rutas, y realizar operaciones de inserción,
  * borrado y consulta sobre ellas
+ *
+ * @author I. Cordón, F.D. Charte
  */
 class AlmacenRutas{
 private:
+    /**
+     * @page repAR Rep del TDA AlmacenRutas
+     *
+     * @section invAR Invariante de la representación
+     *
+     * Se acepta cualquier objeto de Ruta con identificador no vacío
+     *
+     * @section faAR Función de abstracción
+     * Un objeto válido *ar* del TDA AlmacenRutas representa la secuencia
+     *
+     * {*id_1*: *ar.ruta_1*, *id_2*: *ar.ruta_2*, ...}
+     * 
+     */
     map <string,Ruta> almacen;          ///< identificador de Ruta, instancia Ruta
     map <Punto, set<string> > puntos_rutas;///< Rutas en que aparece un Punto
 public:

@@ -15,6 +15,7 @@ int main(int argc, char* argv[]){
         cout << "8. El nombre del fichero de salida" << endl;
         return -1;
     }
+    
     // Leemos la imagen del mapa y del avión de memoria
     Imagen avion,mapa;
     mapa.leer(argv[2]);
