@@ -8,9 +8,8 @@ Imagen CreadorImagenes::muestraRuta(Ruta a_imprimir, Paises mundo) {
     int columnas = mapa.numColumnas();
     Imagen copia_avion(avion);
 
-    for (it=a_imprimir.begin(); it != a_imprimir.end(); ++it){
-        siguiente = it;
-        ++siguiente;
+    for (it = a_imprimir.begin(); it != a_imprimir.end(); ++it){
+        ++(siguiente = it);
 
         // Calculamos punto medio y punto extremo del segmento
         Imagen::Posicion ext((double)(filas/180)*(double)(90-it->first),
@@ -24,7 +23,15 @@ Imagen CreadorImagenes::muestraRuta(Ruta a_imprimir, Paises mundo) {
             ang_rot = (siguiente->first<it->first ? M_PI*2-ang_rot : ang_rot);
             final.superponer(copia_avion.aplicarOpacidad(0xd0).rotar(ang_rot), md); 
         }
-        final.superponer(mundo[*it].bandera(),ext).superponer(copia_avion.aplicarOpacidad(0xd0),ext);        
+
+        set<Pais>::iterator p_it = mundo.find(*it);
+
+        if (p_it != mundo.end()) {
+            cout << p_it->descripcion() << endl;
+            final.superponer(p_it->bandera,ext);
+        }
+
+        final.superponer(copia_avion.aplicarOpacidad(0xd0),ext);        
     }
 
     return final;

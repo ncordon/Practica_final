@@ -2,11 +2,12 @@
 #define __PAIS
 #include "imagen.h"
 #include "punto.h"
+#include <set>
 
 class Paises;
 class Pais;
 
-typedef std::map<Punto,Pais> MapaPuntoAPais;
+typedef std::set<Pais> ConjuntoPaises;
 
 /**
  * @class Paises
@@ -16,7 +17,7 @@ typedef std::map<Punto,Pais> MapaPuntoAPais;
  * 
  * @author I. Cordón, F.D. Charte
  */
-class Paises : public MapaPuntoAPais {
+class Paises : public ConjuntoPaises {
 private:
     /**
      * @page repPaises Representación del TDA Paises
@@ -57,75 +58,54 @@ public:
 
 /**
  * @class Pais
- * Se identifican los Países con objetos Punto
+ * Se identifican los Países con objetos Punto, más una bandera
  * 
  * @author I. Cordón, F.D. Charte
  */
-class Pais {
-private:
+struct Pais : public Punto {
+
     /**
      * @page repPais Representación del TDA Pais
      *
      * @section inv Invariante de la representación
      *
-     * Se acepta cualquier nombre (`string`) no vacío, y un objeto 
-     * válido de la clase Imagen.
+     * Derivado de Punto, y además se acepta cualquier objeto válido
+     * de Imagen como *bandera*
      *
      * @section fa Función de abstracción
      * Un objeto válido *p* del TDA Pais representa el País
      *
-     * Nombre: *p.nombre_pais*
+     * Nombre: *p.desc*
      * Bandera: *p.bandera_img*
+     * Ubicación: (*p.first()*, *p.second()*)
      * 
      */
-    ///< Almacena el nombre del país
-    string nombre_pais;
     ///< Almacena la imagen de la bandera del país
-    Imagen bandera_img;
+    Imagen bandera;
 
-public:
     /**
      * @brief Constructor por defecto
      * Crea un objeto Pais vacío
      */
-    Pais(){}
+    Pais()
+        :Punto() {}
+
     /**
-     * @brief Constructor con parámetro
+     * @brief Constructor con parámetros
+     * @param p Punto a inicializar
+     */
+    Pais(const Punto& p)
+        :Punto(p) {}
+    /**
+     * @brief Constructor con parámetros
+     * @param latitud
+     * @param longitud
      * @param pais
      * @param path_bandera
      */
-    Pais(string pais, char* path_bandera)
-        :nombre_pais(pais){
-        bandera_img.leer(path_bandera);
-    }
-
-    /**
-     * @brief Modificación del nombre
-     * @return referencia al nombre del Pais
-     */
-    string& nombre() {
-        return this->nombre_pais;
-    }
-    /**
-     * @brief Consulta del nombre
-     * @return referencia constante al nombre del Pais
-     */
-    const string& nombre() const {
-        return this->nombre_pais;
-    }
-    /**
-     * @brief Modificación de la bandera
-     * @return referencia a la bandera del Pais
-     */
-    Imagen& bandera() {
-        return this->bandera_img;
-    }
-    /**
-     * @brief Consulta de la bandera
-     * @return referencia constante a la bandera del Pais
-     */
-    const Imagen& bandera() const {
-        return this->bandera_img;
+    Pais(double latitud, double longitud, string pais, char* path_bandera)
+        :Punto(latitud, longitud, pais) {
+        bandera.leer(path_bandera);
     }
 };
 
