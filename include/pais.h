@@ -36,15 +36,17 @@ public:
 };
 
 /**
- * @struct Pais
+ * @class Pais
  * Se identifican los Países con objetos Punto
  * 
  */
-struct Pais:public Punto{
+class Pais:public Punto{
     ///< Almacena el nombre del país
-    string nombre;
+    string nombre_pais;
     ///< Almacena la imagen de la bandera del país
-    Imagen bandera;
+    Imagen bandera_img;
+
+public:
     /**
      * @brief Constructor por defecto
      * Crea un objeto Pais vacío
@@ -58,39 +60,22 @@ struct Pais:public Punto{
      * @param path_bandera
      */
     Pais(double latitud, double longitud, string pais, char* path_bandera)
-        :Punto(latitud,longitud), nombre(pais){
-        bandera.leer(path_bandera);
+        :Punto(latitud,longitud), nombre_pais(pais){
+        bandera_img.leer(path_bandera);
+    }
+
+    string& nombre() {
+        return this->nombre_pais;
+    }
+    const string& nombre() const {
+        return this->nombre_pais;
+    }
+    Imagen& bandera() {
+        return this->bandera_img;
+    }
+    const Imagen& bandera() const {
+        return this->bandera_img;
     }
 };
 
-
-istream& operator >>(istream &input, Paises& p){
-    // Función que permite extraer del flujo separadores
-    auto eraseDelim=[](istream& input)->void{
-        while (input && (input.peek()=='\t' ||input.peek()==' ' || input.peek()=='\n'))
-            input.get();
-    };
-    p.clear();
-    double latitud,longitud;
-    string pais,n_bandera, dir=p.dir_banderas;
-    const int TAM_LINEA=1024;
-    // Leemos comentarios y cabecera de un fichero de paises
-    while (input && input.peek()=='#')
-        input.ignore(TAM_LINEA,'\n');
-    
-    Pais actual;
-    
-    while(input){
-        input >> latitud;
-        eraseDelim(input);
-        input >> longitud;
-        eraseDelim(input);
-        input >> pais;
-        eraseDelim(input);
-        input >> n_bandera;
-        actual=Pais(latitud,longitud,pais,(char*)(dir+'/'+n_bandera).c_str());
-        p.insert(pair<Punto,Pais>(actual,actual));
-    }
-    return input;
-}
 #endif

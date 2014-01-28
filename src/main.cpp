@@ -2,17 +2,21 @@
 #include "pais.h"
 char prueba[]="./prueba";
 
+Imagen muestraRuta() {
+
+}
+
 int main(int argc, char* argv[]){
     if (argc!=8){
-            cout<<"Los parametros son :"<<endl;
-            cout<<"1.-El fichero de países"<<endl;
-            cout<<"2.-La imagen del mapa de fondo"<<endl;
-            cout<<"3.-El directorio de banderas"<<endl;
-            cout<<"4.-El fichero de rutas"<<endl;
-            cout<<"5.-La imagen del avión a emplear"<<endl;
-            cout<<"6.-La máscara para el pegado de avión"<<endl;
-            cout<<"7.-La ruta a mostrar"<<endl;
-            return -1;
+        cout<<"Los parametros son :"<<endl;
+        cout<<"1.-El fichero de países"<<endl;
+        cout<<"2.-La imagen del mapa de fondo"<<endl;
+        cout<<"3.-El directorio de banderas"<<endl;
+        cout<<"4.-El fichero de rutas"<<endl;
+        cout<<"5.-La imagen del avión a emplear"<<endl;
+        cout<<"6.-La máscara para el pegado de avión"<<endl;
+        cout<<"7.-La ruta a mostrar"<<endl;
+        return -1;
     }
     // Leemos la imagen del mapa y del avión de memoria
     Imagen avion,mapa,av;
@@ -40,7 +44,7 @@ int main(int argc, char* argv[]){
     --p;
     
     for (it=mostrar.begin(); it!=mostrar.end(); ++it){
-        cout << almacenp[*it].nombre << endl;
+        cout << almacenp[*it].nombre() << endl;
         k=it;   ++k;
         // Calculamos punto medio y punto extremo del segmento
         Imagen::Posicion ext((double)(totalfilas/180)*(double)(90-it->first),
@@ -54,7 +58,7 @@ int main(int argc, char* argv[]){
             ang_rot=(k->first<it->first ? M_PI*2-ang_rot : ang_rot);
             mapa.superponer(av.aplicarOpacidad(0xd0).rotar(ang_rot),md); 
         }
-        mapa.superponer(almacenp[*it].bandera,ext).superponer(av.aplicarOpacidad(0xd0),ext);        
+        mapa.superponer(almacenp[*it].bandera(),ext).superponer(av.aplicarOpacidad(0xd0),ext);        
     }
     mapa.escribir(prueba,"PPM");
 }

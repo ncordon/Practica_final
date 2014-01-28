@@ -11,7 +11,7 @@ using namespace std;
  */
 
 /**
- * @struct Punto
+ * @class Punto
  * 
  * TDA Punto. Permite almacenar y acceder a puntos de RxR que representan la
  * localización geográfica de un punto, via su latitud y su longitud
@@ -21,8 +21,9 @@ using namespace std;
  * 
  */
 
-struct Punto:public std::pair<double,double> {
+class Punto:public std::pair<double,double> {
     string desc;         ///< Descripción sobre el punto
+public:
     /**
      * @brief Constructor por defecto
      */
