@@ -1,4 +1,4 @@
-#include <ruta.h>
+#include "ruta.h"
 
 istream& operator >> (istream& input, Ruta& una_ruta){
     // Función lambda que permite extraer del flujo los caracteres separadores

@@ -17,12 +17,35 @@ using namespace std;
  * @class Imagen
  * TDA que permite almacenar una serie de píxeles que representan una imagen,
  * y realizar operaciones básicas como lectura, escritura y rotado de la misma.
+ *
+ * @author I. Cordón, F.D. Charte
  */
 class Imagen {
+    /**
+     * @page repImg Representación del TDA Imagen
+     *
+     * @section inv Invariante de la representación
+     *
+     * Una imagen válida contiene una cantidad positiva o 0 de píxeles
+     * (objetos de Pixel). El número de filas (`rownum`) y columnas (`colnum`) ha de ser
+     * por tanto positivo o 0.
+     *
+     * @section fa Función de abstracción
+     * Un objeto válido *img* del TDA Imagen representa la imagen
+     *
+     * *img.m[0][0]* *img.m[0][1]* *img.m[0][2]* ...
+     *
+     * *img.m[1][0]* *img.m[1][1]* *img.m[1][2]* ...
+     *
+     * *img.m[2][0]* *img.m[2][1]* *img.m[2][2]* ...
+     *
+     * ...
+     * 
+     */
 	///< Puntero a matriz de píxeles
 	Pixel ** m;
-	///< Dimensiones
-	int colnum, rownum;
+	unsigned int colnum, ///< Número de columnas
+		rownum; ///< Número de filas
 	/**
 	 * @enum TipoImagen Tipos de imágenes disponibles
 	 */
@@ -50,8 +73,8 @@ class Imagen {
 	void reserva(unsigned int nr, unsigned int nc);
 	/**
 	 * @brief Permite leer el tipo de imagen que se va a tratar
-	 * @param file flujo de archivo abierto
-	 * @return TipoImagen
+	 * @param input flujo de archivo abierto
+	 * @return Tipo de la Imagen
 	 */
 	TipoImagen leerTipo(ifstream& input);
 	/**

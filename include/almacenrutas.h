@@ -14,13 +14,13 @@
 class AlmacenRutas{
 private:
     /**
-     * @page repAR Rep del TDA AlmacenRutas
+     * @page repAR Representación del TDA AlmacenRutas
      *
-     * @section invAR Invariante de la representación
+     * @section inv Invariante de la representación
      *
      * Se acepta cualquier objeto de Ruta con identificador no vacío
      *
-     * @section faAR Función de abstracción
+     * @section fa Función de abstracción
      * Un objeto válido *ar* del TDA AlmacenRutas representa la secuencia
      *
      * {*id_1*: *ar.ruta_1*, *id_2*: *ar.ruta_2*, ...}
@@ -61,15 +61,31 @@ public:
     /// Iterador constante
     typedef map<string,Ruta>::const_iterator const_iterator;
     
+    /**
+     * @brief Iterador al inicio
+     * @return iterador al inicio
+     */
     iterator begin(){
         return almacen.begin();
     }
+    /**
+     * @brief Iterador al final
+     * @return iterador al final
+     */
     iterator end(){
         return almacen.end();
     }
+    /**
+     * @brief Iterador constante al inicio
+     * @return iterador constante al inicio
+     */
     const_iterator begin()const{
         return almacen.begin();
     }
+    /**
+     * @brief Iterador constante al final
+     * @return iterador constante al final
+     */
     const_iterator end()const{
         return almacen.end();
     }

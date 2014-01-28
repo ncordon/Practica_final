@@ -16,12 +16,26 @@ using namespace std;
  * TDA Punto. Permite almacenar y acceder a puntos de RxR que representan la
  * localización geográfica de un punto, via su latitud y su longitud
  * 
- * Punto.first=latitud
- * Punto.second=longitud
- * 
+ * @author I. Cordón, F.D. Charte
  */
 
 class Punto:public std::pair<double,double> {
+    /**
+     * @page repPunto Representación del TDA Punto
+     *
+     * @section inv Invariante de la representación
+     *
+     * Se acepta cualquier par de flotantes que representen un lugar geográfico
+     * puntual en la Tierra. Además, una descripción (puede ser vacía).
+     *
+     * @section fa Función de abstracción
+     * Un objeto válido *pt* del TDA Punto representa el lugar
+     *
+     * Latitud: *pt.first*
+     * Longitud: *pt.second*
+     * Descripción: *pt.desc*
+     * 
+     */
     string desc;         ///< Descripción sobre el punto
 public:
     /**
@@ -30,9 +44,9 @@ public:
     Punto(){}
     /**
      * @brief Constructor con parámetros
-     * @param latitud
-     * @param longitud
-     * @param descripcion
+     * @param lat Latitud
+     * @param lon Longitud
+     * @param descripcion Descripción del punto
      */
     Punto (double lat, double lon, string descripcion="")
         :pair(lat,lon),desc(descripcion) {}

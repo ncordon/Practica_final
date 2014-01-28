@@ -9,9 +9,24 @@
  * 
  * TDA que permite almacenar una ruta mediante una sucesión de puntos que 
  * representan las coordenadas geográficas de los lugares de la ruta
+
+ * @author I. Cordón, F.D. Charte
  */
 class Ruta{
 private:
+    /**
+     * @page repRuta Representación del TDA Ruta
+     *
+     * @section inv Invariante de la representación
+     *
+     * Se acepta cualquier número natural o 0 de objetos válidos de Punto.
+     *
+     * @section fa Función de abstracción
+     * Un objeto válido *r* del TDA Ruta representa el camino
+     *
+     * *r.id*: *r.camino[0]* -> *r.camino[1]* -> ...
+     * 
+     */
     list <Punto> camino;            ///< Contiene la sucesión de coordenadas
     string id;                      ///< Identificador de la ruta
 public:
@@ -20,15 +35,31 @@ public:
     /// Iterador constante
     typedef list<Punto>::const_iterator const_iterator;
     
+    /**
+     * @brief Iterador al inicio de la ruta
+     * @return iterador al inicio de la ruta
+     */
     iterator begin() {
         return camino.begin();
     }
+    /**
+     * @brief Iterador al final de la ruta
+     * @return iterador al final de la ruta
+     */
     iterator end() {
         return camino.end();
     }
+    /**
+     * @brief Iterador constante al inicio de la ruta
+     * @return iterador constante al inicio de la ruta
+     */
     const_iterator begin()const{
         return camino.begin();
     }
+    /**
+     * @brief Iterador constante al final de la ruta
+     * @return iterador constante al final de la ruta
+     */
     const_iterator end()const{
         return camino.end();
     }
