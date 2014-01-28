@@ -9,7 +9,6 @@ Imagen CreadorImagenes::muestraRuta(Ruta a_imprimir, Paises mundo) {
     Imagen copia_avion(avion);
 
     for (it=a_imprimir.begin(); it != a_imprimir.end(); ++it){
-        cout << mundo[*it].nombre() << endl;
         siguiente = it;
         ++siguiente;
 

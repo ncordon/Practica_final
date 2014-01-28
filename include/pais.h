@@ -3,7 +3,10 @@
 #include "imagen.h"
 #include "punto.h"
 
-struct Pais;
+class Paises;
+class Pais;
+
+typedef std::map<Punto,Pais> MapaPuntoAPais;
 
 /**
  * @class Paises
@@ -13,10 +16,10 @@ struct Pais;
  * 
  * @author I. Cordón, F.D. Charte
  */
-class Paises : public std::map<Punto,Pais> {
+class Paises : public MapaPuntoAPais {
 private:
     /**
-     * @page repPais Representación del TDA Paises
+     * @page repPaises Representación del TDA Paises
      *
      * @section inv Invariante de la representación
      *
@@ -29,6 +32,7 @@ private:
      * {punto_1: pais_1, punto_2: pais_2, ...}
      * 
      */
+
     ///< Almacena el path del directorio contenedor de banderas de países
     string dir_banderas;
 public:
@@ -95,18 +99,35 @@ public:
         bandera_img.leer(path_bandera);
     }
 
+    /**
+     * @brief Modificación del nombre
+     * @return referencia al nombre del Pais
+     */
     string& nombre() {
         return this->nombre_pais;
     }
+    /**
+     * @brief Consulta del nombre
+     * @return referencia constante al nombre del Pais
+     */
     const string& nombre() const {
         return this->nombre_pais;
     }
+    /**
+     * @brief Modificación de la bandera
+     * @return referencia a la bandera del Pais
+     */
     Imagen& bandera() {
         return this->bandera_img;
     }
+    /**
+     * @brief Consulta de la bandera
+     * @return referencia constante a la bandera del Pais
+     */
     const Imagen& bandera() const {
         return this->bandera_img;
     }
 };
+
 
 #endif

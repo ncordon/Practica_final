@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
         cout << "8. El nombre del fichero de salida" << endl;
         return -1;
     }
-    
+
     // Leemos la imagen del mapa y del avión de memoria
     Imagen avion,mapa;
     mapa.leer(argv[2]);
@@ -26,14 +26,14 @@ int main(int argc, char* argv[]){
     // Fichero de paises
     ifstream f_paises(argv[1]);
     
-    Paises almacenp (dir);
+    Paises almacenp(dir);
     AlmacenRutas almacenr;
     
     // Leo los almacenes de rutas y de países
     f_paises >> almacenp;
     f_rutas >> almacenr;
     
-    CreadorImagenes impresor_rutas(mapa, avion, dir);
+    CreadorImagenes impresor_rutas(mapa, avion);
     Imagen maparuta(impresor_rutas.muestraRuta(almacenr[objetivo], almacenp));
 
     maparuta.escribir(argv[8],"PPM");
