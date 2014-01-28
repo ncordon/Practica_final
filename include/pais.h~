@@ -46,7 +46,7 @@ struct Pais:public Punto{
     ///< Almacena la imagen de la bandera del país
     Imagen bandera;
     /**
-     * @brief Constructor por defecto
+     * @brief Constructor sin parámetros
      * Crea un objeto Pais vacío
      */
     Pais():Punto(){}

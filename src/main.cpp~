@@ -2,6 +2,35 @@
 #include "pais.h"
 char prueba[]="./prueba";
 
+void dibujaRuta (Imagen& mapa, Ruta& una_ruta, char* path){
+    // Fichero de paises
+    ifstream f_paises(path);
+    Paises almacenp (dir);
+    // Leo el almacén de países
+    f_paises >> almacenp;
+    
+    Ruta::iterator it, p(una_ruta.end()), k;
+    --p;
+    
+    for (it=mostrar.begin(); it!=mostrar.end(); ++it){
+        cout << almacenp[*it].nombre << endl;
+        k=it;   ++k;
+        // Calculamos punto medio y punto extremo del segmento
+        Imagen::Posicion ext((double)(totalfilas/180)*(double)(90-it->first),
+                            (double)(totalcolumnas/360)*(double)(180+it->second));
+        Imagen::Posicion md((double)(totalfilas/180)*(double)(-(it->first+k->first)/2+90),
+                            (double)(totalcolumnas/360)*(double)((it->second+k->second)/2+180));
+        // Calculo la rotación y pego el avión en la mitad del segmento
+        if (it!=p){
+            av=avion;
+            ang_rot=acos((k->second-it->second)/it->distancia(*k));
+            ang_rot=(k->first<it->first ? M_PI*2-ang_rot : ang_rot);
+            mapa.superponer(av.aplicarOpacidad(0xd0).rotar(ang_rot),md); 
+        }
+        mapa.superponer(almacenp[*it].bandera,ext).superponer(av.aplicarOpacidad(0xd0),ext);        
+    }
+}
+    
 int main(int argc, char* argv[]){
     if (argc!=8){
             cout<<"Los parametros son :"<<endl;
@@ -25,38 +54,14 @@ int main(int argc, char* argv[]){
     string objetivo(argv[7]), dir(argv[3]);
     // Fichero de rutas
     ifstream f_rutas(argv[4]);
-    // Fichero de paises
-    ifstream f_paises(argv[1]);
-    
-    Paises almacenp (dir);
+
     AlmacenRutas almacenr;
     
-    // Leo los almacenes de rutas y de países
-    f_paises >> almacenp;
+    // Leo el almacen de rutas
     f_rutas >> almacenr;
     
-    Ruta mostrar(almacenr[objetivo]);
-    cout << mostrar;
-    Ruta::iterator it, p(mostrar.end()), k;
-    --p;
-    
-    for (it=mostrar.begin(); it!=mostrar.end(); ++it){
-        cout << almacenp[*it].nombre << endl;
-        k=it;   ++k;
-        // Calculamos punto medio y punto extremo del segmento
-        Imagen::Posicion ext((double)(totalfilas/180)*(double)(90-it->first),
-                            (double)(totalcolumnas/360)*(double)(180+it->second));
-        Imagen::Posicion md((double)(totalfilas/180)*(double)(-(it->first+k->first)/2+90),
-                            (double)(totalcolumnas/360)*(double)((it->second+k->second)/2+180));
-        // Calculo la rotación y pego el avión en la mitad del segmento
-        if (it!=p){
-            av=avion;
-            ang_rot=acos((k->second-it->second)/it->distancia(*k));
-            ang_rot=(k->first<it->first ? M_PI*2-ang_rot : ang_rot);
-            mapa.superponer(av.aplicarOpacidad(0xd0).rotar(ang_rot),md); 
-        }
-        mapa.superponer(almacenp[*it].bandera,ext).superponer(av.aplicarOpacidad(0xd0),ext);        
-    }
+    Ruta mi_ruta(almacenr[objetivo]);
+    dibujaRuta(mapa,mi_ruta,argv[1]);
     mapa.escribir(prueba,"PPM");
 }
     
