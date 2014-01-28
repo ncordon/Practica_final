@@ -84,16 +84,14 @@ public:
      * @brief Constructor por defecto
      * Crea un objeto Pais vacío
      */
-    Pais():Punto(){}
+    Pais(){}
     /**
-     * @brief Constructor con parámetros
-     * @param latitud
-     * @param longitud
+     * @brief Constructor con parámetro
      * @param pais
      * @param path_bandera
      */
-    Pais(double latitud, double longitud, string pais, char* path_bandera)
-        :Punto(latitud,longitud), nombre_pais(pais){
+    Pais(string pais, char* path_bandera)
+        :nombre_pais(pais){
         bandera_img.leer(path_bandera);
     }
 
