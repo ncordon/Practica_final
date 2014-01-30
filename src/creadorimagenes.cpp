@@ -24,13 +24,13 @@ Imagen CreadorImagenes::muestraRuta(Ruta a_imprimir, Paises mundo) {
             final.superponer(copia_avion.aplicarOpacidad(0xd0).rotar(ang_rot), md); 
         }
 
-        set<Pais>::iterator p_it = mundo.find(*it);
-
+        Paises::iterator p_it = mundo.find(*it);
+        // Imprimimos el nombre del país y pegamos su bandera
         if (p_it != mundo.end()) {
             cout << p_it->descripcion() << endl;
             final.superponer(p_it->bandera,ext);
         }
-
+        // Pegamos el avión en el otro extremo del segmento
         final.superponer(copia_avion.aplicarOpacidad(0xd0),ext);        
     }
 
